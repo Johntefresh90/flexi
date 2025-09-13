@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - SkillForge AI | AI-Generated Personalized Learning Paths</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'slide-up': 'slideUp 0.5s ease-out'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+        
+        .course-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .course-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .ai-generating {
+            background: linear-gradient(90deg, #5D5CDE, #8B5CF6, #5D5CDE);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .progress-ring {
+            transition: stroke-dasharray 0.5s ease;
+        }
+        
+        .filter-active {
+            background: #5D5CDE;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- Header (Same as homepage) -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">SkillForge AI</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Shape Your Future</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-base hover:text-primary transition-colors">Home</a>
+                    <a href="#courses" class="text-base text-primary font-semibold">Courses</a>
+                    <a href="#careers" class="text-base hover:text-primary transition-colors">Careers</a>
+                    <a href="#avatars" class="text-base hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="text-base hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="text-base hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="text-base hover:text-primary transition-colors">Blog</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 dark:bg-dark-card rounded-full px-4 py-2 max-w-xs">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="Search courses..." class="bg-transparent text-base ml-2 flex-1 outline-none" id="courseSearch">
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <select class="hidden md:block bg-transparent text-base outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="fr">🇫🇷 FR</option>
+                    </select>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                    </button>
+
+                    <!-- CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-3">
+                        <button class="px-4 py-2 text-base text-primary hover:bg-primary hover:text-white rounded-lg transition-all">Login</button>
+                        <button class="px-6 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Create Course</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-around">
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line1"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line2"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line3"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="lg:hidden mt-4 hidden">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-6 space-y-4">
+                    <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-3 mb-4">
+                        <i class="fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="Search courses..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                    </div>
+                    <a href="index.html" class="block text-base py-2 hover:text-primary transition-colors">Home</a>
+                    <a href="#courses" class="block text-base py-2 text-primary font-semibold">Courses</a>
+                    <a href="#careers" class="block text-base py-2 hover:text-primary transition-colors">Careers</a>
+                    <a href="#avatars" class="block text-base py-2 hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="block text-base py-2 hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="block text-base py-2 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="block text-base py-2 hover:text-primary transition-colors">Blog</a>
+                    <div class="pt-4 space-y-3">
+                        <button class="w-full px-4 py-3 text-base text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Login</button>
+                        <button class="w-full px-4 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Create Course</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    AI-Generated <span class="gradient-text">Learning Paths</span><br>
+                    Tailored for Your Success
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+                    Experience the future of education with courses that adapt to your goals, learning style, and pace. 
+                    Our advanced AI creates personalized learning journeys that prepare you for real-world success.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <button id="generateCourseBtn" class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                        <i class="fas fa-magic mr-2"></i>Generate My Course
+                    </button>
+                    <button id="browseCourseBtn" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                        <i class="fas fa-search mr-2"></i>Browse All Courses
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">10,000+</div>
+                        <div class="text-gray-600 dark:text-gray-400">AI-Generated Courses</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">50+</div>
+                        <div class="text-gray-600 dark:text-gray-400">Career Fields</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">95%</div>
+                        <div class="text-gray-600 dark:text-gray-400">Success Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">24/7</div>
+                        <div class="text-gray-600 dark:text-gray-400">AI Tutoring</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Course Generator Section -->
+    <section id="ai-generator" class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">AI Course Generator</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Tell us your goals, and our advanced AI will create a completely personalized course just for you.
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div id="courseGeneratorForm" class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-8 mb-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">What's your career goal?</label>
+                                <textarea id="careerGoal" class="w-full h-32 px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors resize-none" placeholder="e.g., I want to become a full-stack developer specializing in React and Node.js, or I want to transition from marketing to data science..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">Your current skill level</label>
+                                <select id="skillLevel" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                    <option value="">Select your level</option>
+                                    <option value="beginner">Complete Beginner</option>
+                                    <option value="some-knowledge">Some Knowledge</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">Time availability</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button type="button" class="time-option px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-time="5">5 hrs/week</button>
+                                    <button type="button" class="time-option px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-time="10">10 hrs/week</button>
+                                    <button type="button" class="time-option px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-time="20">20 hrs/week</button>
+                                    <button type="button" class="time-option px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-time="full-time">Full-time</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">Learning preferences</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-3 w-4 h-4 text-primary" value="hands-on">
+                                        <span class="text-base">Hands-on projects</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-3 w-4 h-4 text-primary" value="video">
+                                        <span class="text-base">Video lectures</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-3 w-4 h-4 text-primary" value="interactive">
+                                        <span class="text-base">Interactive simulations</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-3 w-4 h-4 text-primary" value="reading">
+                                        <span class="text-base">Reading materials</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="mr-3 w-4 h-4 text-primary" value="mentoring">
+                                        <span class="text-base">1-on-1 mentoring</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">Target completion</label>
+                                <select id="timeframe" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                    <option value="">Select timeframe</option>
+                                    <option value="3">3 months</option>
+                                    <option value="6">6 months</option>
+                                    <option value="12">1 year</option>
+                                    <option value="24">2 years</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-lg font-semibold mb-3">Industry focus</label>
+                                <select id="industry" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                    <option value="">Select industry</option>
+                                    <option value="tech">Technology</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="education">Education</option>
+                                    <option value="creative">Creative Arts</option>
+                                    <option value="business">Business</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="science">Science</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button id="generateBtn" class="px-12 py-4 text-xl bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                            <i class="fas fa-robot mr-3"></i>Generate My Personalized Course
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Generation Result -->
+                <div id="generationResult" class="hidden">
+                    <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-8">
+                        <div id="generatingState" class="text-center py-12">
+                            <div class="w-20 h-20 ai-generating rounded-full mx-auto mb-6 flex items-center justify-center">
+                                <i class="fas fa-brain text-white text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">AI is crafting your perfect course...</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Analyzing your goals, preferences, and industry requirements</p>
+                            <div class="w-64 h-2 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto">
+                                <div id="progressBar" class="h-2 bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="generatedCourse" class="hidden">
+                            <!-- Generated course content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Catalog Section -->
+    <section id="course-catalog" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Explore Our Course Catalog</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Discover thousands of AI-generated and community-created courses across all fields.
+                </p>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="mb-12">
+                <div class="flex flex-col lg:flex-row gap-6 mb-8">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="catalogSearch" placeholder="Search courses, skills, or topics..." class="w-full pl-12 pr-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <select id="sortBy" class="px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                            <option value="popularity">Most Popular</option>
+                            <option value="newest">Newest</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="duration">Duration</option>
+                        </select>
+                        <select id="levelFilter" class="px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                            <option value="">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button class="category-filter filter-active px-6 py-2 text-base rounded-full transition-all" data-category="all">All Courses</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="ai-generated">AI-Generated</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="technology">Technology</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="business">Business</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="design">Design</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="marketing">Marketing</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="healthcare">Healthcare</button>
+                    <button class="category-filter px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:border-primary transition-all" data-category="finance">Finance</button>
+                </div>
+            </div>
+
+            <!-- Course Grid -->
+            <div id="courseGrid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Courses will be dynamically loaded here -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="loadMoreBtn" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                    Load More Courses
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Creation Section -->
+    <section id="create-course" class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Create Your Own Course</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Share your expertise with the world. Our AI assists you in creating professional, engaging courses.
+                </p>
+            </div>
+
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl p-8">
+                            <h3 class="text-2xl font-bold mb-6">Course Creation Assistant</h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-lg font-semibold mb-3">Course Title</label>
+                                    <input type="text" id="courseTitle" placeholder="e.g., Advanced JavaScript for Web Development" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-semibold mb-3">Course Description</label>
+                                    <textarea id="courseDescription" rows="4" placeholder="Describe what students will learn and achieve..." class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors resize-none"></textarea>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-lg font-semibold mb-3">Category</label>
+                                        <select id="courseCategory" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                            <option value="">Select category</option>
+                                            <option value="technology">Technology</option>
+                                            <option value="business">Business</option>
+                                            <option value="design">Design</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="healthcare">Healthcare</option>
+                                            <option value="finance">Finance</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-lg font-semibold mb-3">Difficulty Level</label>
+                                        <select id="courseDifficulty" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                            <option value="">Select level</option>
+                                            <option value="beginner">Beginner</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="advanced">Advanced</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-semibold mb-3">Learning Objectives</label>
+                                    <textarea id="learningObjectives" rows="3" placeholder="What will students be able to do after completing this course?" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors resize-none"></textarea>
+                                </div>
+                                <button id="aiAssistBtn" class="w-full px-6 py-4 text-lg bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all font-semibold">
+                                    <i class="fas fa-magic mr-2"></i>Get AI Assistance
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-xl p-8">
+                            <h3 class="text-2xl font-bold mb-6">Course Creation Benefits</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                        <i class="fas fa-robot text-green-600 dark:text-green-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2">AI-Powered Course Structure</h4>
+                                        <p class="text-gray-600 dark:text-gray-400 text-base">Our AI helps organize your content into engaging lessons with optimal learning progression.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                        <i class="fas fa-users text-blue-600 dark:text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2">Global Reach</h4>
+                                        <p class="text-gray-600 dark:text-gray-400 text-base">Share your knowledge with thousands of learners worldwide and build your reputation.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                        <i class="fas fa-chart-line text-purple-600 dark:text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2">Analytics & Insights</h4>
+                                        <p class="text-gray-600 dark:text-gray-400 text-base">Track student progress and get insights to improve your teaching effectiveness.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mr-4 flex-shrink-0">
+                                        <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold mb-2">Monetization Options</h4>
+                                        <p class="text-gray-600 dark:text-gray-400 text-base">Earn revenue from your courses with flexible pricing models and profit sharing.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-8 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <h4 class="text-lg font-semibold mb-3">Creator Stats</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-primary">5,000+</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Active Creators</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-primary">$2.5M+</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Creator Earnings</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button id="startCreatingBtn" class="px-12 py-4 text-xl bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                        <i class="fas fa-plus mr-3"></i>Start Creating Your Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Success Stories</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    See how our AI-generated courses have transformed careers and lives.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Maria Rodriguez</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Career Switcher</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "The AI-generated Data Science course was perfectly tailored to my background in marketing. I landed a data analyst role at Google within 4 months!"
+                    </p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>Completed in 16 weeks</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">James Chen</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Entrepreneur</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "Creating my AI course on blockchain development helped me establish expertise in my field. My course has over 10,000 students now!"
+                    </p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-users mr-2"></i>
+                        <span>10,247 students taught</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Sarah Johnson</h3>
+                            <p class="text-gray-600 dark:text-gray-400">UX Designer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "The personalized UX design course adapted to my visual learning style perfectly. The hands-on projects prepared me for real client work."
+                    </p>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-trophy mr-2"></i>
+                        <span>Portfolio led to 3 job offers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">SkillForge AI</h3>
+                            <p class="text-xs text-gray-400">Shape Your Future</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed mb-6">
+                        Empowering millions of learners worldwide with AI-powered career development and personalized education.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Courses</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">AI-Generated Courses</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Technology</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Business</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Healthcare</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">For Creators</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Create Course</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Creator Resources</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Teaching Tools</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Monetization</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-base mb-4 md:mb-0">
+                        © 2024 SkillForge AI. All rights reserved.
+                    </p>
+                    <div class="flex items-center space-x-6">
+                        <span class="text-gray-400 text-base">🤖 Powered by Advanced AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample course data
+        const courses = [
+            {
+                id: 1,
+                title: "AI-Generated Full-Stack Development Bootcamp",
+                description: "Comprehensive course covering React, Node.js, databases, and deployment, personalized for your coding background.",
+                category: "technology",
+                level: "intermediate",
+                duration: "16 weeks",
+                students: 2456,
+                rating: 4.9,
+                price: 199,
+                instructor: "AI Tutor: CodeMaster",
+                tags: ["JavaScript", "React", "Node.js", "MongoDB"],
+                isAIGenerated: true,
+                image: "from-blue-500 to-cyan-500"
+            },
+            {
+                id: 2,
+                title: "Personalized Data Science Journey",
+                description: "Machine learning, statistics, and Python programming adapted to your mathematical background and career goals.",
+                category: "technology",
+                level: "beginner",
+                duration: "20 weeks",
+                students: 1834,
+                rating: 4.8,
+                price: 249,
+                instructor: "AI Tutor: DataGuru",
+                tags: ["Python", "Machine Learning", "Statistics", "Pandas"],
+                isAIGenerated: true,
+                image: "from-purple-500 to-pink-500"
+            },
+            {
+                id: 3,
+                title: "Custom UX/UI Design Masterclass",
+                description: "Design thinking, prototyping, and user research tailored to your creative background and portfolio needs.",
+                category: "design",
+                level: "intermediate",
+                duration: "12 weeks",
+                students: 987,
+                rating: 4.7,
+                price: 179,
+                instructor: "AI Tutor: DesignPro",
+                tags: ["Figma", "User Research", "Prototyping", "Design Systems"],
+                isAIGenerated: true,
+                image: "from-green-500 to-emerald-500"
+            },
+            {
+                id: 4,
+                title: "Digital Marketing Strategy Revolution",
+                description: "SEO, social media, content marketing, and analytics customized for your business sector and goals.",
+                category: "marketing",
+                level: "beginner",
+                duration: "10 weeks",
+                students: 3421,
+                rating: 4.6,
+                price: 149,
+                instructor: "AI Tutor: MarketingGenius",
+                tags: ["SEO", "Social Media", "Content Marketing", "Analytics"],
+                isAIGenerated: true,
+                image: "from-orange-500 to-red-500"
+            },
+            {
+                id: 5,
+                title: "Blockchain Development Fundamentals",
+                description: "Smart contracts, DeFi, and Web3 development from blockchain expert James Chen.",
+                category: "technology",
+                level: "advanced",
+                duration: "14 weeks",
+                students: 1256,
+                rating: 4.9,
+                price: 299,
+                instructor: "James Chen",
+                tags: ["Solidity", "Ethereum", "Smart Contracts", "Web3"],
+                isAIGenerated: false,
+                image: "from-indigo-500 to-purple-500"
+            },
+            {
+                id: 6,
+                title: "AI-Powered Business Analytics",
+                description: "Data-driven decision making, KPI tracking, and business intelligence adapted to your industry.",
+                category: "business",
+                level: "intermediate",
+                duration: "18 weeks",
+                students: 892,
+                rating: 4.8,
+                price: 219,
+                instructor: "AI Tutor: BizAnalytics",
+                tags: ["Business Intelligence", "KPIs", "Data Analysis", "Excel"],
+                isAIGenerated: true,
+                image: "from-cyan-500 to-blue-500"
+            },
+            {
+                id: 7,
+                title: "Healthcare Innovation & Technology",
+                description: "Medical technology, healthcare systems, and digital health solutions for healthcare professionals.",
+                category: "healthcare",
+                level: "advanced",
+                duration: "22 weeks",
+                students: 567,
+                rating: 4.9,
+                price: 349,
+                instructor: "AI Tutor: MedTech",
+                tags: ["Healthcare IT", "Medical Devices", "Telemedicine", "Health Data"],
+                isAIGenerated: true,
+                image: "from-red-500 to-pink-500"
+            },
+            {
+                id: 8,
+                title: "Financial Technology & Fintech",
+                description: "Cryptocurrency, trading algorithms, and financial modeling customized for finance professionals.",
+                category: "finance",
+                level: "advanced",
+                duration: "16 weeks",
+                students: 1123,
+                rating: 4.7,
+                price: 279,
+                instructor: "AI Tutor: FinanceAI",
+                tags: ["Fintech", "Cryptocurrency", "Trading", "Financial Modeling"],
+                isAIGenerated: true,
+                image: "from-yellow-500 to-orange-500"
+            }
+        ];
+
+        let currentCourses = [...courses];
+        let displayedCourses = 8;
+
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Initialize dark mode
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+        } else if (systemPrefersDark) {
+            html.classList.add('dark');
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (!localStorage.getItem('theme')) {
+                if (event.matches) {
+                    html.classList.add('dark');
+                } else {
+                    html.classList.remove('dark');
+                }
+            }
+        });
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                line1.style.transform = 'rotate(0deg) translateY(0px)';
+                line2.style.opacity = '1';
+                line3.style.transform = 'rotate(0deg) translateY(0px)';
+            } else {
+                line1.style.transform = 'rotate(45deg) translateY(6px)';
+                line2.style.opacity = '0';
+                line3.style.transform = 'rotate(-45deg) translateY(-6px)';
+            }
+        });
+
+        // Close mobile menu when clicking on links
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                line1.style.transform = 'rotate(0deg) translateY(0px)';
+                line2.style.opacity = '1';
+                line3.style.transform = 'rotate(0deg) translateY(0px)';
+            });
+        });
+
+        // Course generation functionality
+        const generateBtn = document.getElementById('generateBtn');
+        const generationResult = document.getElementById('generationResult');
+        const generatingState = document.getElementById('generatingState');
+        const generatedCourse = document.getElementById('generatedCourse');
+        const progressBar = document.getElementById('progressBar');
+
+        // Time option selection
+        document.querySelectorAll('.time-option').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.time-option').forEach(btn => {
+                    btn.classList.remove('filter-active');
+                    btn.classList.add('border-gray-300', 'dark:border-gray-600');
+                });
+                button.classList.add('filter-active');
+                button.classList.remove('border-gray-300', 'dark:border-gray-600');
+            });
+        });
+
+        generateBtn.addEventListener('click', () => {
+            const careerGoal = document.getElementById('careerGoal').value;
+            const skillLevel = document.getElementById('skillLevel').value;
+            const timeframe = document.getElementById('timeframe').value;
+            
+            if (!careerGoal || !skillLevel) {
+                showCustomAlert('Please fill in your career goal and skill level to generate a course.');
+                return;
+            }
+
+            // Show generation process
+            generationResult.classList.remove('hidden');
+            generatingState.classList.remove('hidden');
+            generatedCourse.classList.add('hidden');
+            
+            // Simulate AI generation progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        showGeneratedCourse(careerGoal, skillLevel, timeframe);
+                    }, 500);
+                }
+            }, 200);
+
+            // Scroll to result
+            generationResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        function showGeneratedCourse(goal, level, timeframe) {
+            generatingState.classList.add('hidden');
+            generatedCourse.classList.remove('hidden');
+            
+            const courseHTML = `
+                <div class="animate-slide-up">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-check text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Your Personalized Course is Ready!</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-lg">Based on your goal: "${goal}"</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-primary to-purple-600 rounded-2xl p-8 text-white mb-8">
+                        <h4 class="text-2xl font-bold mb-4">AI-Generated: Advanced Career Transition Program</h4>
+                        <div class="grid md:grid-cols-3 gap-6 mb-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">${timeframe || '6'} months</div>
+                                <div class="text-sm opacity-90">Duration</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">${level === 'beginner' ? '15' : level === 'intermediate' ? '20' : '25'} hrs/week</div>
+                                <div class="text-sm opacity-90">Time Investment</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold">95%</div>
+                                <div class="text-sm opacity-90">Success Rate</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg">Your AI Tutor: <strong>CareerMentor Pro</strong></span>
+                            <div class="flex items-center">
+                                <i class="fas fa-star mr-1"></i>
+                                <span class="mr-2">4.9</span>
+                                <span class="text-sm opacity-90">(AI-optimized curriculum)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h5 class="text-xl font-bold mb-4">Course Modules</h5>
+                            <div class="space-y-3">
+                                <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3 text-white text-sm font-bold">1</div>
+                                    <span class="text-base">Foundation & Assessment (Week 1-2)</span>
+                                </div>
+                                <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3 text-white text-sm font-bold">2</div>
+                                    <span class="text-base">Core Skills Development (Week 3-12)</span>
+                                </div>
+                                <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3 text-white text-sm font-bold">3</div>
+                                    <span class="text-base">Advanced Applications (Week 13-20)</span>
+                                </div>
+                                <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3 text-white text-sm font-bold">4</div>
+                                    <span class="text-base">Portfolio & Career Prep (Week 21-24)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="text-xl font-bold mb-4">Personalized Features</h5>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-robot text-primary mr-3"></i>
+                                    <span class="text-base">AI tutor adapts to your learning style</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-project-diagram text-primary mr-3"></i>
+                                    <span class="text-base">Hands-on projects in your target field</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-users text-primary mr-3"></i>
+                                    <span class="text-base">1-on-1 mentoring sessions</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-certificate text-primary mr-3"></i>
+                                    <span class="text-base">Industry-recognized certification</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-briefcase text-primary mr-3"></i>
+                                    <span class="text-base">Career placement assistance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg mr-4">
+                            <i class="fas fa-play mr-2"></i>Start This Course
+                        </button>
+                        <button class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                            <i class="fas fa-download mr-2"></i>Download Curriculum
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            generatedCourse.innerHTML = courseHTML;
+        }
+
+        // Course catalog functionality
+        function renderCourses(coursesToRender = currentCourses.slice(0, displayedCourses)) {
+            const courseGrid = document.getElementById('courseGrid');
+            courseGrid.innerHTML = '';
+
+            coursesToRender.forEach(course => {
+                const courseCard = createCourseCard(course);
+                courseGrid.appendChild(courseCard);
+            });
+        }
+
+        function createCourseCard(course) {
+            const card = document.createElement('div');
+            card.className = 'bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover';
+            
+            card.innerHTML = `
+                <div class="h-48 bg-gradient-to-r ${course.image} flex items-center justify-center relative">
+                    <i class="fas fa-graduation-cap text-white text-4xl"></i>
+                    ${course.isAIGenerated ? '<div class="absolute top-3 left-3 bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-semibold">AI-Generated</div>' : ''}
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="course-tag px-3 py-1 bg-${getCategoryColor(course.category)}-100 dark:bg-${getCategoryColor(course.category)}-900 text-${getCategoryColor(course.category)}-800 dark:text-${getCategoryColor(course.category)}-200 rounded-full text-sm font-semibold">${course.category.charAt(0).toUpperCase() + course.category.slice(1)}</span>
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-yellow-400 text-sm mr-1"></i>
+                            <span class="text-sm font-semibold">${course.rating}</span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2 line-clamp-2">${course.title}</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">${course.description}</p>
+                    
+                    <div class="flex items-center mb-4 text-sm text-gray-500">
+                        <i class="fas fa-user mr-2"></i>
+                        <span class="mr-4">${course.instructor}</span>
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>${course.duration}</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        ${course.tags.slice(0, 3).map(tag => `<span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-2xl font-bold text-primary">$${course.price}</span>
+                            <div class="text-xs text-gray-500">${course.students.toLocaleString()} students</div>
+                        </div>
+                        <button class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                technology: 'blue',
+                business: 'purple',
+                design: 'green',
+                marketing: 'orange',
+                healthcare: 'red',
+                finance: 'yellow'
+            };
+            return colors[category] || 'gray';
+        }
+
+        // Category filter functionality
+        document.querySelectorAll('.category-filter').forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.category-filter').forEach(btn => {
+                    btn.classList.remove('filter-active');
+                    btn.classList.add('border', 'border-gray-300', 'dark:border-gray-600');
+                });
+                button.classList.add('filter-active');
+                button.classList.remove('border', 'border-gray-300', 'dark:border-gray-600');
+                
+                // Filter courses
+                const category = button.dataset.category;
+                filterCourses(category);
+            });
+        });
+
+        function filterCourses(category) {
+            if (category === 'all') {
+                currentCourses = [...courses];
+            } else if (category === 'ai-generated') {
+                currentCourses = courses.filter(course => course.isAIGenerated);
+            } else {
+                currentCourses = courses.filter(course => course.category === category);
+            }
+            displayedCourses = Math.min(8, currentCourses.length);
+            renderCourses();
+            updateLoadMoreButton();
+        }
+
+        // Search functionality
+        document.getElementById('catalogSearch').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            currentCourses = courses.filter(course => 
+                course.title.toLowerCase().includes(query) ||
+                course.description.toLowerCase().includes(query) ||
+                course.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            displayedCourses = Math.min(8, currentCourses.length);
+            renderCourses();
+            updateLoadMoreButton();
+        });
+
+        // Load more functionality
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            displayedCourses = Math.min(displayedCourses + 8, currentCourses.length);
+            renderCourses();
+            updateLoadMoreButton();
+        });
+
+        function updateLoadMoreButton() {
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (displayedCourses >= currentCourses.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Course creation functionality
+        document.getElementById('aiAssistBtn').addEventListener('click', () => {
+            const title = document.getElementById('courseTitle').value;
+            if (!title) {
+                showCustomAlert('Please enter a course title to get AI assistance.');
+                return;
+            }
+            
+            showCustomAlert('AI Assistant: Based on your title, I suggest structuring this course with 5 modules focusing on fundamentals, practical applications, advanced concepts, real-world projects, and career preparation. Would you like me to generate a detailed outline?');
+        });
+
+        document.getElementById('startCreatingBtn').addEventListener('click', () => {
+            showCustomAlert('Course creation wizard coming soon! You\'ll be able to create professional courses with AI assistance, interactive content, and automatic student progress tracking.');
+        });
+
+        // Custom alert function (avoiding browser alert)
+        function showCustomAlert(message) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-dark-card p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-info-circle text-primary text-xl mr-3"></i>
+                        <h3 class="text-lg font-semibold">Information</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">${message}</p>
+                    <div class="text-right">
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onclick="this.closest('.fixed').remove()">OK</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCourses();
+            updateLoadMoreButton();
+        });
+
+        console.log('SkillForge AI Courses Page loaded successfully! 🚀');
+    </script>
+</body>
+</html>

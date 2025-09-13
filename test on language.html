@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-language Website</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Language Selector -->
+  <select id="languageSelector" class="bg-transparent text-base cursor-pointer">
+    <option value="en">🇺🇸 EN</option>
+    <option value="es">🇪🇸 ES</option>
+    <option value="fr">🇫🇷 FR</option>
+  </select>
+
+  <!-- Website content -->
+  <h1 data-translate="title">Welcome to Our Website</h1>
+  <p data-translate="description">This is an example of a multi-language website.</p>
+  <button data-translate="button">Click Me</button>
+
+  <script>
+    // Translations
+    const translations = {
+      en: {
+        title: "Welcome to Our Website",
+        description: "This is an example of a multi-language website.",
+        button: "Click Me"
+      },
+      es: {
+        title: "Bienvenido a Nuestro Sitio Web",
+        description: "Este es un ejemplo de un sitio web multilingüe.",
+        button: "Haz Clic"
+      },
+      fr: {
+        title: "Bienvenue sur Notre Site Web",
+        description: "Ceci est un exemple de site Web multilingue.",
+        button: "Cliquez Moi"
+      }
+    };
+
+    // Language selector
+    const selector = document.getElementById('languageSelector');
+
+    selector.addEventListener('change', (e) => {
+      const lang = e.target.value;
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        el.textContent = translations[lang][key];
+      });
+    });
+  </script>
+</body>
+</html>

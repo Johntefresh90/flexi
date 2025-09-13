@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - SkillForge AI | Start Your Learning Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'slide-out': 'slideOut 0.5s ease-in',
+                        'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-50px); }
+        }
+        
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(93, 92, 222, 0.2); }
+            to { box-shadow: 0 0 30px rgba(93, 92, 222, 0.4); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .signup-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .dark .signup-bg {
+            background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background-color: #5D5CDE;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .step-indicator.completed {
+            background-color: #10B981;
+            color: white;
+        }
+        
+        .step-content {
+            transition: all 0.5s ease;
+        }
+        
+        .step-content.hidden {
+            display: none;
+        }
+        
+        .social-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .social-btn:hover::before {
+            left: 100%;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:valid + label,
+        .input-group textarea:focus + label,
+        .input-group textarea:valid + label,
+        .input-group select:focus + label,
+        .input-group select:valid + label {
+            transform: translateY(-25px) scale(0.85);
+            color: #5D5CDE;
+        }
+        
+        .input-group label {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            color: #9CA3AF;
+            background: white;
+            padding: 0 4px;
+        }
+        
+        .dark .input-group label {
+            background: #2A2A2A;
+        }
+        
+        .input-group textarea + label {
+            top: 20px;
+            transform: translateY(0);
+        }
+        
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .floating-shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-shape:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .floating-shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        .floating-shape:nth-child(4) {
+            bottom: 10%;
+            right: 20%;
+            animation-delay: 6s;
+        }
+        
+        .avatar-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .avatar-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(93, 92, 222, 0.2);
+        }
+        
+        .avatar-option.selected {
+            border: 3px solid #5D5CDE;
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .preference-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .preference-card:hover {
+            background-color: rgba(93, 92, 222, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .preference-card.selected {
+            background-color: #5D5CDE;
+            color: white;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            background-color: #e5e7eb;
+        }
+        
+        .strength-indicator {
+            height: 100%;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            width: 0%;
+        }
+        
+        .strength-weak .strength-indicator { background-color: #ef4444; width: 33%; }
+        .strength-medium .strength-indicator { background-color: #f59e0b; width: 66%; }
+        .strength-strong .strength-indicator { background-color: #10b981; width: 100%; }
+        
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #5D5CDE;
+            animation: fall 3s linear infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 3;
+            stroke: #10b981;
+            stroke-miterlimit: 10;
+            margin: 20px auto;
+            animation: checkmark 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        
+        .success-checkmark path {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: checkmark-path 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        
+        @keyframes checkmark {
+            0% { stroke-dashoffset: 48; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes checkmark-path {
+            0% { stroke-dashoffset: 48; }
+            100% { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <div class="signup-bg relative">
+        <!-- Floating Background Shapes -->
+        <div class="floating-shapes">
+            <div class="floating-shape w-32 h-32 bg-primary rounded-full"></div>
+            <div class="floating-shape w-24 h-24 bg-purple-500 rounded-lg transform rotate-45"></div>
+            <div class="floating-shape w-28 h-28 bg-blue-500 rounded-full"></div>
+            <div class="floating-shape w-20 h-20 bg-pink-500 rounded-lg transform rotate-12"></div>
+        </div>
+
+        <div class="container mx-auto px-4 py-8 relative z-10">
+            <!-- Header -->
+            <header class="mb-8">
+                <div class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center animate-bounce-gentle">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white">SkillForge AI</h1>
+                            <p class="text-white text-opacity-70 text-sm">Shape Your Future</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex items-center space-x-4">
+                        <button id="darkModeToggle" class="p-3 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all">
+                            <i class="fas fa-moon dark:fa-sun text-white text-lg"></i>
+                        </button>
+                        <a href="login.html" class="text-white text-opacity-80 hover:text-opacity-100 transition-colors text-base font-medium">
+                            Already have an account? <span class="font-bold">Sign In</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="step-indicator active w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-semibold text-gray-600 dark:text-gray-300" data-step="1">1</div>
+                        <div class="w-16 h-1 bg-gray-300 dark:bg-gray-600 rounded-full">
+                            <div class="progress-line h-full bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div class="step-indicator w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-semibold text-gray-600 dark:text-gray-300" data-step="2">2</div>
+                        <div class="w-16 h-1 bg-gray-300 dark:bg-gray-600 rounded-full">
+                            <div class="progress-line h-full bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div class="step-indicator w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-semibold text-gray-600 dark:text-gray-300" data-step="3">3</div>
+                        <div class="w-16 h-1 bg-gray-300 dark:bg-gray-600 rounded-full">
+                            <div class="progress-line h-full bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <div class="step-indicator w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-semibold text-gray-600 dark:text-gray-300" data-step="4">4</div>
+                    </div>
+                </div>
+                <div class="w-full bg-white bg-opacity-20 rounded-full h-2 mb-2">
+                    <div id="progressBar" class="progress-bar bg-white h-2 rounded-full" style="width: 25%"></div>
+                </div>
+                <p class="text-center text-white text-opacity-80 text-sm" id="stepDescription">Create your account and start learning</p>
+            </header>
+
+            <!-- Main Content -->
+            <div class="flex justify-center">
+                <div class="w-full max-w-2xl">
+                    <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-8 card-hover animate-slide-in">
+                        
+                        <!-- Step 1: Account Creation -->
+                        <div id="step1" class="step-content">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow">
+                                    <i class="fas fa-user-plus text-white text-2xl"></i>
+                                </div>
+                                <h2 class="text-3xl font-bold mb-2">Create Your Account</h2>
+                                <p class="text-gray-600 dark:text-gray-400">Join thousands of learners transforming their careers</p>
+                            </div>
+
+                            <!-- Social Signup Buttons -->
+                            <div class="space-y-3 mb-6">
+                                <button id="googleSignUp" class="social-btn w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                                    <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                    <span class="text-gray-700 dark:text-gray-300 font-medium">Sign up with Google</span>
+                                </button>
+                                
+                                <button id="microsoftSignUp" class="social-btn w-full flex items-center justify-center px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                                    <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                                        <path fill="#F25022" d="M0 0h11v11H0z"/>
+                                        <path fill="#7FBA00" d="M13 0h11v11H13z"/>
+                                        <path fill="#00A4EF" d="M0 13h11v11H0z"/>
+                                        <path fill="#FFB900" d="M13 13h11v11H13z"/>
+                                    </svg>
+                                    <span class="text-gray-700 dark:text-gray-300 font-medium">Sign up with Microsoft</span>
+                                </button>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="relative mb-6">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                                </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white dark:bg-dark-card text-gray-500">or create account with email</span>
+                                </div>
+                            </div>
+
+                            <!-- Email Form -->
+                            <form id="step1Form" class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="input-group">
+                                        <input type="text" id="firstName" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                        <label for="firstName" class="text-base">First Name</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" id="lastName" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                        <label for="lastName" class="text-base">Last Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <input type="email" id="email" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                    <label for="email" class="text-base">Email address</label>
+                                </div>
+
+                                <div class="input-group">
+                                    <div class="relative">
+                                        <input type="password" id="password" required class="w-full px-4 py-3 pr-12 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                        <label for="password" class="text-base">Password</label>
+                                        <button type="button" id="togglePassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                            <span>Password strength</span>
+                                            <span id="passwordStrengthText">Weak</span>
+                                        </div>
+                                        <div class="password-strength">
+                                            <div id="passwordStrengthBar" class="strength-indicator"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="flex items-start">
+                                        <input type="checkbox" id="agreeTerms" required class="mt-0.5 mr-3 w-4 h-4 text-primary bg-white dark:bg-dark-bg border-2 border-gray-300 dark:border-gray-600 rounded focus:ring-primary focus:ring-2">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">
+                                            I agree to the <a href="#" class="text-primary hover:underline font-semibold">Terms of Service</a> and 
+                                            <a href="#" class="text-primary hover:underline font-semibold">Privacy Policy</a>
+                                        </span>
+                                    </label>
+                                    <label class="flex items-start">
+                                        <input type="checkbox" id="marketingEmails" class="mt-0.5 mr-3 w-4 h-4 text-primary bg-white dark:bg-dark-bg border-2 border-gray-300 dark:border-gray-600 rounded focus:ring-primary focus:ring-2">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">
+                                            Send me learning tips and course recommendations
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary-dark transition-all font-semibold text-base shadow-lg hover:shadow-xl">
+                                    Continue
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Step 2: Learning Preferences -->
+                        <div id="step2" class="step-content hidden">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce-gentle">
+                                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
+                                </div>
+                                <h2 class="text-3xl font-bold mb-2">How Do You Like to Learn?</h2>
+                                <p class="text-gray-600 dark:text-gray-400">Help us personalize your learning experience</p>
+                            </div>
+
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-4">Learning Style (Select all that apply)</h3>
+                                    <div class="grid md:grid-cols-2 gap-3">
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="visual">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-eye text-blue-500 text-xl mr-3"></i>
+                                                <div>
+                                                    <h4 class="font-semibold">Visual Learning</h4>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Charts, diagrams, videos</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="auditory">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-headphones text-green-500 text-xl mr-3"></i>
+                                                <div>
+                                                    <h4 class="font-semibold">Auditory Learning</h4>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Lectures, discussions, audio</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="kinesthetic">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-hands text-purple-500 text-xl mr-3"></i>
+                                                <div>
+                                                    <h4 class="font-semibold">Hands-on Learning</h4>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Practice, experiments, projects</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="reading">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-book text-orange-500 text-xl mr-3"></i>
+                                                <div>
+                                                    <h4 class="font-semibold">Reading/Writing</h4>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Text, notes, documentation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-4">Preferred Study Schedule</h3>
+                                    <div class="grid md:grid-cols-3 gap-3">
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="morning">
+                                            <div class="text-center">
+                                                <i class="fas fa-sun text-yellow-500 text-2xl mb-2"></i>
+                                                <h4 class="font-semibold">Morning</h4>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">6 AM - 12 PM</p>
+                                            </div>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="afternoon">
+                                            <div class="text-center">
+                                                <i class="fas fa-sun text-orange-500 text-2xl mb-2"></i>
+                                                <h4 class="font-semibold">Afternoon</h4>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">12 PM - 6 PM</p>
+                                            </div>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg" data-preference="evening">
+                                            <div class="text-center">
+                                                <i class="fas fa-moon text-purple-500 text-2xl mb-2"></i>
+                                                <h4 class="font-semibold">Evening</h4>
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">6 PM - 12 AM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-4">Time Commitment</h3>
+                                    <div class="grid md:grid-cols-4 gap-3">
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-preference="1-5">
+                                            <h4 class="font-semibold">1-5 hrs/week</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Casual</p>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-preference="5-10">
+                                            <h4 class="font-semibold">5-10 hrs/week</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Regular</p>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-preference="10-20">
+                                            <h4 class="font-semibold">10-20 hrs/week</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Committed</p>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-preference="20+">
+                                            <h4 class="font-semibold">20+ hrs/week</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Intensive</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <button id="step2Back" class="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all font-semibold">
+                                        Back
+                                    </button>
+                                    <button id="step2Continue" class="flex-1 px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Choose Your Avatar -->
+                        <div id="step3" class="step-content hidden">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-wiggle">
+                                    <i class="fas fa-robot text-white text-2xl"></i>
+                                </div>
+                                <h2 class="text-3xl font-bold mb-2">Choose Your AI Tutor</h2>
+                                <p class="text-gray-600 dark:text-gray-400">Select the avatar that matches your learning style and age group</p>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <!-- Alexa -->
+                                    <div class="avatar-option bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-6 text-center text-white border-2 border-transparent" data-avatar="alexa">
+                                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-user-tie text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Alexa</h3>
+                                        <p class="text-blue-100 text-sm mb-3">Professional Adults</p>
+                                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                                            Career-Focused
+                                        </div>
+                                    </div>
+
+                                    <!-- Envy -->
+                                    <div class="avatar-option bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl p-6 text-center text-white border-2 border-transparent" data-avatar="envy">
+                                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-rocket text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Envy</h3>
+                                        <p class="text-purple-100 text-sm mb-3">Teens & Young Adults</p>
+                                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                                            Trendy & Cool
+                                        </div>
+                                    </div>
+
+                                    <!-- Mixi -->
+                                    <div class="avatar-option bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl p-6 text-center text-white border-2 border-transparent" data-avatar="mixi">
+                                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-child text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Mixi</h3>
+                                        <p class="text-yellow-100 text-sm mb-3">Kids & Children</p>
+                                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                                            Fun & Playful
+                                        </div>
+                                    </div>
+
+                                    <!-- Plexi -->
+                                    <div class="avatar-option bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl p-6 text-center text-white border-2 border-transparent" data-avatar="plexi">
+                                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-graduation-cap text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Plexi</h3>
+                                        <p class="text-green-100 text-sm mb-3">Scholars & Researchers</p>
+                                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                                            Academic & Deep
+                                        </div>
+                                    </div>
+
+                                    <!-- Voxy -->
+                                    <div class="avatar-option bg-gradient-to-br from-red-500 to-rose-500 rounded-xl p-6 text-center text-white border-2 border-transparent" data-avatar="voxy">
+                                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <i class="fas fa-magic text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Voxy</h3>
+                                        <p class="text-red-100 text-sm mb-3">Universal Mentor</p>
+                                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                                            Adaptive & Versatile
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="avatarDescription" class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 hidden">
+                                    <h4 class="text-lg font-semibold mb-2" id="avatarName"></h4>
+                                    <p class="text-gray-600 dark:text-gray-400" id="avatarDetails"></p>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <button id="step3Back" class="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all font-semibold">
+                                        Back
+                                    </button>
+                                    <button id="step3Continue" class="flex-1 px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold" disabled>
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Goals & Interests -->
+                        <div id="step4" class="step-content hidden">
+                            <div class="text-center mb-8">
+                                <div class="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow">
+                                    <i class="fas fa-target text-white text-2xl"></i>
+                                </div>
+                                <h2 class="text-3xl font-bold mb-2">What Are Your Goals?</h2>
+                                <p class="text-gray-600 dark:text-gray-400">Help us recommend the perfect courses for you</p>
+                            </div>
+
+                            <form id="step4Form" class="space-y-6">
+                                <div class="input-group">
+                                    <textarea id="careerGoals" rows="4" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors resize-none"></textarea>
+                                    <label for="careerGoals" class="text-base">Describe your career goals and what you want to achieve</label>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-semibold mb-4">Areas of Interest (Select up to 3)</h3>
+                                    <div class="grid md:grid-cols-3 gap-3">
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="technology">
+                                            <i class="fas fa-laptop-code text-blue-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Technology</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="business">
+                                            <i class="fas fa-chart-line text-green-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Business</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="design">
+                                            <i class="fas fa-palette text-purple-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Design</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="marketing">
+                                            <i class="fas fa-bullhorn text-orange-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Marketing</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="healthcare">
+                                            <i class="fas fa-heartbeat text-red-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Healthcare</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="finance">
+                                            <i class="fas fa-dollar-sign text-yellow-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Finance</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="education">
+                                            <i class="fas fa-chalkboard-teacher text-indigo-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Education</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="science">
+                                            <i class="fas fa-microscope text-cyan-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Science</h4>
+                                        </div>
+                                        <div class="preference-card p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg text-center" data-interest="arts">
+                                            <i class="fas fa-music text-pink-500 text-2xl mb-2"></i>
+                                            <h4 class="font-semibold">Arts</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="input-group">
+                                        <select id="experienceLevel" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                            <option value="">Select your level</option>
+                                            <option value="beginner">Complete Beginner</option>
+                                            <option value="some-experience">Some Experience</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="advanced">Advanced</option>
+                                        </select>
+                                        <label for="experienceLevel" class="text-base">Current Experience Level</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <select id="timeframe" required class="w-full px-4 py-3 text-base border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                            <option value="">Select timeframe</option>
+                                            <option value="3-months">3 months</option>
+                                            <option value="6-months">6 months</option>
+                                            <option value="1-year">1 year</option>
+                                            <option value="2-years">2+ years</option>
+                                        </select>
+                                        <label for="timeframe" class="text-base">Goal Timeline</label>
+                                    </div>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <button id="step4Back" type="button" class="flex-1 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all font-semibold">
+                                        Back
+                                    </button>
+                                    <button type="submit" id="createAccount" class="flex-1 px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold flex items-center justify-center">
+                                        <span id="createAccountText">Create My Account</span>
+                                        <div id="createAccountSpinner" class="loading-spinner ml-2 hidden"></div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-2xl max-w-lg w-full mx-4 animate-slide-in">
+            <div class="text-center">
+                <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h3 class="text-3xl font-bold mb-4">Welcome to SkillForge AI!</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">
+                    Your account has been created successfully. We've personalized your learning experience based on your preferences.
+                </p>
+                <div class="bg-primary bg-opacity-10 rounded-lg p-4 mb-6">
+                    <h4 class="font-semibold mb-2">What's Next?</h4>
+                    <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                        <li>✓ Verify your email address</li>
+                        <li>✓ Complete your profile setup</li>
+                        <li>✓ Start your first AI-generated course</li>
+                    </ul>
+                </div>
+                <button id="continueToProfile" class="w-full px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                    Continue to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Animation -->
+    <div id="confettiContainer" class="celebration hidden"></div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        const totalSteps = 4;
+        const userPreferences = {
+            personalInfo: {},
+            learningStyle: [],
+            schedule: '',
+            timeCommitment: '',
+            avatar: '',
+            interests: [],
+            goals: ''
+        };
+
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Initialize dark mode
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+        } else if (systemPrefersDark) {
+            html.classList.add('dark');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Password strength functionality
+        const password = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordStrengthBar = document.getElementById('passwordStrengthBar');
+        const passwordStrengthText = document.getElementById('passwordStrengthText');
+
+        togglePassword.addEventListener('click', () => {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        password.addEventListener('input', () => {
+            const strength = calculatePasswordStrength(password.value);
+            updatePasswordStrength(strength);
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 15;
+            if (/[a-z]/.test(password)) strength += 15;
+            if (/[A-Z]/.test(password)) strength += 15;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 15;
+            return Math.min(strength, 100);
+        }
+
+        function updatePasswordStrength(strength) {
+            passwordStrengthBar.className = 'strength-indicator';
+            
+            if (strength < 30) {
+                passwordStrengthBar.parentElement.className = 'password-strength strength-weak';
+                passwordStrengthText.textContent = 'Weak';
+                passwordStrengthText.className = 'text-red-500';
+            } else if (strength < 70) {
+                passwordStrengthBar.parentElement.className = 'password-strength strength-medium';
+                passwordStrengthText.textContent = 'Medium';
+                passwordStrengthText.className = 'text-yellow-500';
+            } else {
+                passwordStrengthBar.parentElement.className = 'password-strength strength-strong';
+                passwordStrengthText.textContent = 'Strong';
+                passwordStrengthText.className = 'text-green-500';
+            }
+        }
+
+        // Step navigation
+        function updateProgressBar() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update step indicators
+            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                const stepNumber = index + 1;
+                indicator.classList.remove('active', 'completed');
+                
+                if (stepNumber < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (stepNumber === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+
+            // Update progress lines
+            document.querySelectorAll('.progress-line').forEach((line, index) => {
+                const stepNumber = index + 1;
+                if (stepNumber < currentStep) {
+                    line.style.width = '100%';
+                } else {
+                    line.style.width = '0%';
+                }
+            });
+
+            // Update description
+            const descriptions = [
+                "Create your account and start learning",
+                "Tell us about your learning preferences",
+                "Choose your perfect AI learning companion",
+                "Set your goals and interests"
+            ];
+            document.getElementById('stepDescription').textContent = descriptions[currentStep - 1];
+        }
+
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.add('hidden');
+            });
+            
+            // Show current step
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+            currentStep = stepNumber;
+            updateProgressBar();
+        }
+
+        // Step 1: Basic Information
+        document.getElementById('step1Form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Validate form
+            if (!validateStep1()) return;
+            
+            // Store data
+            userPreferences.personalInfo = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                marketingEmails: document.getElementById('marketingEmails').checked
+            };
+            
+            showStep(2);
+        });
+
+        function validateStep1() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            if (!firstName) {
+                showErrorMessage('Please enter your first name');
+                return false;
+            }
+            
+            if (!lastName) {
+                showErrorMessage('Please enter your last name');
+                return false;
+            }
+            
+            if (!email || !isValidEmail(email)) {
+                showErrorMessage('Please enter a valid email address');
+                return false;
+            }
+            
+            if (!password || password.length < 8) {
+                showErrorMessage('Password must be at least 8 characters long');
+                return false;
+            }
+            
+            if (calculatePasswordStrength(password) < 30) {
+                showErrorMessage('Please choose a stronger password');
+                return false;
+            }
+            
+            if (!agreeTerms) {
+                showErrorMessage('Please agree to the Terms of Service');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Social signup handlers
+        document.getElementById('googleSignUp').addEventListener('click', () => {
+            handleSocialSignup('google');
+        });
+
+        document.getElementById('microsoftSignUp').addEventListener('click', () => {
+            handleSocialSignup('microsoft');
+        });
+
+        async function handleSocialSignup(provider) {
+            const button = provider === 'google' ? document.getElementById('googleSignUp') : document.getElementById('microsoftSignUp');
+            const originalText = button.innerHTML;
+            
+            button.disabled = true;
+            button.innerHTML = `
+                <div class="loading-spinner mr-3"></div>
+                <span>Connecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)}...</span>
+            `;
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Simulate success and move to step 2
+                userPreferences.personalInfo = {
+                    provider,
+                    firstName: 'User',
+                    lastName: 'Demo',
+                    email: `user@${provider}.com`
+                };
+                
+                showStep(2);
+            } catch (error) {
+                showErrorMessage('Social signup failed. Please try again.');
+            } finally {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        // Step 2: Learning Preferences
+        document.querySelectorAll('[data-preference]').forEach(card => {
+            card.addEventListener('click', () => {
+                const preference = card.getAttribute('data-preference');
+                const section = card.closest('div[class*="space-y"]') || card.closest('div').closest('div');
+                
+                // Handle multi-select for learning styles
+                if (['visual', 'auditory', 'kinesthetic', 'reading'].includes(preference)) {
+                    card.classList.toggle('selected');
+                } else {
+                    // Single select for other preferences
+                    const sectionCards = section.querySelectorAll('.preference-card');
+                    sectionCards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                }
+            });
+        });
+
+        document.getElementById('step2Back').addEventListener('click', () => {
+            showStep(1);
+        });
+
+        document.getElementById('step2Continue').addEventListener('click', () => {
+            // Validate selections
+            const learningStyles = document.querySelectorAll('[data-preference="visual"].selected, [data-preference="auditory"].selected, [data-preference="kinesthetic"].selected, [data-preference="reading"].selected').length;
+            const schedule = document.querySelector('[data-preference="morning"].selected, [data-preference="afternoon"].selected, [data-preference="evening"].selected');
+            const timeCommitment = document.querySelector('[data-preference="1-5"].selected, [data-preference="5-10"].selected, [data-preference="10-20"].selected, [data-preference="20+"].selected');
+            
+            if (learningStyles === 0) {
+                showErrorMessage('Please select at least one learning style');
+                return;
+            }
+            
+            if (!schedule) {
+                showErrorMessage('Please select your preferred study schedule');
+                return;
+            }
+            
+            if (!timeCommitment) {
+                showErrorMessage('Please select your time commitment');
+                return;
+            }
+            
+            // Collect preferences
+            const selectedLearningStyles = [];
+            document.querySelectorAll('[data-preference].selected').forEach(card => {
+                const pref = card.getAttribute('data-preference');
+                if (['visual', 'auditory', 'kinesthetic', 'reading'].includes(pref)) {
+                    selectedLearningStyles.push(pref);
+                } else {
+                    userPreferences[getPreferenceCategory(pref)] = pref;
+                }
+            });
+            userPreferences.learningStyle = selectedLearningStyles;
+            
+            showStep(3);
+        });
+
+        function getPreferenceCategory(preference) {
+            if (['morning', 'afternoon', 'evening'].includes(preference)) return 'schedule';
+            if (['1-5', '5-10', '10-20', '20+'].includes(preference)) return 'timeCommitment';
+            return 'other';
+        }
+
+        // Step 3: Avatar Selection
+        const avatarDescriptions = {
+            alexa: "Professional and career-focused, perfect for adults looking to advance their careers with structured, goal-oriented learning.",
+            envy: "Energetic and trendy, ideal for teenagers and young adults who prefer interactive, gamified learning experiences.",
+            mixi: "Playful and patient, specially designed for children with fun animations, games, and age-appropriate content.",
+            plexi: "Scholarly and analytical, suited for academics and researchers who need comprehensive, evidence-based learning.",
+            voxy: "Adaptive and versatile, the ultimate tutor who can adjust to any learning style and age group."
+        };
+
+        document.querySelectorAll('.avatar-option').forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selection from all avatars
+                document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+                
+                // Select clicked avatar
+                option.classList.add('selected');
+                const avatar = option.getAttribute('data-avatar');
+                userPreferences.avatar = avatar;
+                
+                // Show description
+                const description = document.getElementById('avatarDescription');
+                const avatarName = document.getElementById('avatarName');
+                const avatarDetails = document.getElementById('avatarDetails');
+                
+                avatarName.textContent = avatar.charAt(0).toUpperCase() + avatar.slice(1);
+                avatarDetails.textContent = avatarDescriptions[avatar];
+                description.classList.remove('hidden');
+                
+                // Enable continue button
+                document.getElementById('step3Continue').disabled = false;
+                document.getElementById('step3Continue').classList.remove('opacity-50');
+            });
+        });
+
+        document.getElementById('step3Back').addEventListener('click', () => {
+            showStep(2);
+        });
+
+        document.getElementById('step3Continue').addEventListener('click', () => {
+            if (!userPreferences.avatar) {
+                showErrorMessage('Please select an AI tutor to continue');
+                return;
+            }
+            showStep(4);
+        });
+
+        // Step 4: Goals and Interests
+        document.querySelectorAll('[data-interest]').forEach(card => {
+            card.addEventListener('click', () => {
+                const selectedInterests = document.querySelectorAll('[data-interest].selected').length;
+                
+                if (card.classList.contains('selected')) {
+                    card.classList.remove('selected');
+                } else if (selectedInterests < 3) {
+                    card.classList.add('selected');
+                } else {
+                    showErrorMessage('You can select up to 3 areas of interest');
+                }
+            });
+        });
+
+        document.getElementById('step4Back').addEventListener('click', () => {
+            showStep(3);
+        });
+
+        document.getElementById('step4Form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate final step
+            const goals = document.getElementById('careerGoals').value.trim();
+            const experienceLevel = document.getElementById('experienceLevel').value;
+            const timeframe = document.getElementById('timeframe').value;
+            const selectedInterests = document.querySelectorAll('[data-interest].selected');
+            
+            if (!goals) {
+                showErrorMessage('Please describe your career goals');
+                return;
+            }
+            
+            if (!experienceLevel) {
+                showErrorMessage('Please select your experience level');
+                return;
+            }
+            
+            if (!timeframe) {
+                showErrorMessage('Please select your goal timeline');
+                return;
+            }
+            
+            if (selectedInterests.length === 0) {
+                showErrorMessage('Please select at least one area of interest');
+                return;
+            }
+            
+            // Collect final data
+            userPreferences.goals = goals;
+            userPreferences.experienceLevel = experienceLevel;
+            userPreferences.timeframe = timeframe;
+            
+            const interests = [];
+            selectedInterests.forEach(card => {
+                interests.push(card.getAttribute('data-interest'));
+            });
+            userPreferences.interests = interests;
+            
+            // Create account
+            await createAccount();
+        });
+
+        async function createAccount() {
+            const createButton = document.getElementById('createAccount');
+            const buttonText = document.getElementById('createAccountText');
+            const spinner = document.getElementById('createAccountSpinner');
+            
+            // Show loading
+            createButton.disabled = true;
+            buttonText.textContent = 'Creating Your Account...';
+            spinner.classList.remove('hidden');
+            
+            try {
+                // Simulate account creation
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                
+                // Success
+                createConfettiEffect();
+                document.getElementById('successModal').classList.remove('hidden');
+                
+                // Store preferences
+                localStorage.setItem('userPreferences', JSON.stringify(userPreferences));
+                
+            } catch (error) {
+                showErrorMessage('Account creation failed. Please try again.');
+            } finally {
+                createButton.disabled = false;
+                buttonText.textContent = 'Create My Account';
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // Success modal handler
+        document.getElementById('continueToProfile').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Confetti effect
+        function createConfettiEffect() {
+            const container = document.getElementById('confettiContainer');
+            container.classList.remove('hidden');
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = getRandomColor();
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 30);
+            }
+            
+            setTimeout(() => {
+                container.classList.add('hidden');
+            }, 5000);
+        }
+
+        function getRandomColor() {
+            const colors = ['#5D5CDE', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', '#3B82F6'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Utility functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in';
+            errorDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span>${message}</span>
+                    <button class="ml-4 text-white hover:text-gray-200" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        // Input focus effects
+        document.querySelectorAll('input, textarea, select').forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value) {
+                    input.classList.add('valid');
+                } else {
+                    input.classList.remove('valid');
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressBar();
+        });
+
+        console.log('SkillForge AI Signup Page loaded successfully! 🚀');
+    </script>
+</body>
+</html>

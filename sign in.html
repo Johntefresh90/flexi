@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Avatar Tutors - SkillForge AI | Meet Your Personal Learning Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                        'heartbeat': 'heartbeat 2s ease-in-out infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+        
+        .avatar-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .dark .avatar-card {
+            background: linear-gradient(145deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .voice-wave {
+            width: 4px;
+            height: 20px;
+            background: #5D5CDE;
+            margin: 0 1px;
+            animation: wave 1s ease-in-out infinite;
+        }
+        
+        .voice-wave:nth-child(2) { animation-delay: 0.1s; }
+        .voice-wave:nth-child(3) { animation-delay: 0.2s; }
+        .voice-wave:nth-child(4) { animation-delay: 0.3s; }
+        .voice-wave:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes wave {
+            0%, 100% { height: 4px; }
+            50% { height: 20px; }
+        }
+        
+        .personality-trait {
+            transition: all 0.2s ease;
+        }
+        
+        .personality-trait:hover {
+            transform: scale(1.05);
+            background-color: rgba(93, 92, 222, 0.1);
+        }
+        
+        .avatar-selector {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .avatar-selector.active {
+            border: 3px solid #5D5CDE;
+            transform: scale(1.05);
+        }
+        
+        .chat-bubble {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            padding: 12px 20px;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chat-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+        
+        .dark .chat-bubble {
+            background: #2A2A2A;
+            color: #E5E5E5;
+        }
+        
+        .dark .chat-bubble:after {
+            border-top-color: #2A2A2A;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">SkillForge AI</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Shape Your Future</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-base hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="text-base hover:text-primary transition-colors">Courses</a>
+                    <a href="#careers" class="text-base hover:text-primary transition-colors">Careers</a>
+                    <a href="#avatars" class="text-base text-primary font-semibold">Avatars</a>
+                    <a href="#features" class="text-base hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="text-base hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="text-base hover:text-primary transition-colors">Blog</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 dark:bg-dark-card rounded-full px-4 py-2 max-w-xs">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="Search avatars..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-3">
+                        <button class="px-4 py-2 text-base text-primary hover:bg-primary hover:text-white rounded-lg transition-all">Login</button>
+                        <button class="px-6 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Try Avatar</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-around">
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line1"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line2"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line3"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="lg:hidden mt-4 hidden">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-6 space-y-4">
+                    <a href="index.html" class="block text-base py-2 hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="block text-base py-2 hover:text-primary transition-colors">Courses</a>
+                    <a href="#careers" class="block text-base py-2 hover:text-primary transition-colors">Careers</a>
+                    <a href="#avatars" class="block text-base py-2 text-primary font-semibold">Avatars</a>
+                    <a href="#features" class="block text-base py-2 hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="block text-base py-2 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="block text-base py-2 hover:text-primary transition-colors">Blog</a>
+                    <div class="pt-4 space-y-3">
+                        <button class="w-full px-4 py-3 text-base text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Login</button>
+                        <button class="w-full px-4 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Try Avatar</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Meet Your <span class="gradient-text">AI Tutors</span><br>
+                    Personalized Learning Companions
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+                    Each avatar is designed with unique personalities, teaching styles, and expertise to match your learning needs and age group. 
+                    Choose your perfect learning companion and embark on an educational journey tailored just for you.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <button id="exploreAvatarsBtn" class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                        <i class="fas fa-users mr-2"></i>Explore All Avatars
+                    </button>
+                    <button id="customizeAvatarBtn" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                        <i class="fas fa-sliders-h mr-2"></i>Customize Your Avatar
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">5</div>
+                        <div class="text-gray-600 dark:text-gray-400">Unique Avatars</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">24/7</div>
+                        <div class="text-gray-600 dark:text-gray-400">Available</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">15+</div>
+                        <div class="text-gray-600 dark:text-gray-400">Languages</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">98%</div>
+                        <div class="text-gray-600 dark:text-gray-400">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Avatars Section -->
+    <section id="avatars-showcase" class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Choose Your Perfect Learning Companion</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Each avatar is specially designed for different age groups and learning styles, with unique personalities that make learning engaging and effective.
+                </p>
+            </div>
+
+            <!-- Avatar Selection Grid -->
+            <div class="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-8 mb-16">
+                <!-- Alexa - Adults -->
+                <div class="avatar-selector" data-avatar="alexa">
+                    <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-center text-white card-hover">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 animate-float">
+                            <i class="fas fa-user-tie text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Alexa</h3>
+                        <p class="text-blue-100 text-sm mb-3">Professional Adults</p>
+                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                            Career-Focused
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Envy - Youths -->
+                <div class="avatar-selector" data-avatar="envy">
+                    <div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-center text-white card-hover">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce-slow">
+                            <i class="fas fa-rocket text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Envy</h3>
+                        <p class="text-purple-100 text-sm mb-3">Teenagers & Young Adults</p>
+                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                            Trendy & Cool
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mixi - Children -->
+                <div class="avatar-selector" data-avatar="mixi">
+                    <div class="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-6 text-center text-white card-hover">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 animate-wiggle">
+                            <i class="fas fa-child text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Mixi</h3>
+                        <p class="text-yellow-100 text-sm mb-3">Kids & Children</p>
+                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                            Fun & Playful
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plexi - Scholars -->
+                <div class="avatar-selector" data-avatar="plexi">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-center text-white card-hover">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow">
+                            <i class="fas fa-graduation-cap text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Plexi</h3>
+                        <p class="text-green-100 text-sm mb-3">Academics & Researchers</p>
+                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                            Scholarly & Deep
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voxy - Universal -->
+                <div class="avatar-selector" data-avatar="voxy">
+                    <div class="bg-gradient-to-br from-red-500 to-rose-500 rounded-2xl p-6 text-center text-white card-hover">
+                        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 animate-spin-slow">
+                            <i class="fas fa-magic text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Voxy</h3>
+                        <p class="text-red-100 text-sm mb-3">Universal Mentor</p>
+                        <div class="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs">
+                            Adaptive & Versatile
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Avatar Display -->
+            <div id="avatarDetails" class="max-w-6xl mx-auto">
+                <!-- Alexa Details -->
+                <div id="alexa-details" class="avatar-details hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl p-12 text-center text-white">
+                                <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-heartbeat">
+                                    <i class="fas fa-user-tie text-6xl"></i>
+                                </div>
+                                <h2 class="text-4xl font-bold mb-4">Meet Alexa</h2>
+                                <p class="text-xl text-blue-100 mb-6">Your Professional Career Mentor</p>
+                                <button id="alexaVoiceBtn" class="bg-white bg-opacity-20 rounded-full px-6 py-3 hover:bg-opacity-30 transition-all">
+                                    <i class="fas fa-volume-up mr-2"></i>Hear Alexa's Voice
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Professional & Results-Driven</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                Alexa specializes in career development for working professionals. With her business-focused approach and industry expertise, 
+                                she helps adults advance their careers, transition to new fields, and achieve their professional goals.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-briefcase text-blue-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Business Expertise</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Corporate strategy, leadership, management</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-clock text-blue-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Time-Efficient</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Structured lessons for busy professionals</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-chart-line text-blue-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Goal-Oriented</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Focuses on measurable outcomes</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-network-wired text-blue-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Industry Insights</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Real-world business scenarios</p>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">Perfect for:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-blue-500 text-white rounded-full text-sm">Career Advancement</span>
+                                    <span class="px-3 py-1 bg-blue-500 text-white rounded-full text-sm">Leadership Training</span>
+                                    <span class="px-3 py-1 bg-blue-500 text-white rounded-full text-sm">Professional Skills</span>
+                                    <span class="px-3 py-1 bg-blue-500 text-white rounded-full text-sm">Business Strategy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Envy Details -->
+                <div id="envy-details" class="avatar-details hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl p-12 text-center text-white">
+                                <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-slow">
+                                    <i class="fas fa-rocket text-6xl"></i>
+                                </div>
+                                <h2 class="text-4xl font-bold mb-4">Meet Envy</h2>
+                                <p class="text-xl text-purple-100 mb-6">Your Cool & Trendy Mentor</p>
+                                <button id="envyVoiceBtn" class="bg-white bg-opacity-20 rounded-full px-6 py-3 hover:bg-opacity-30 transition-all">
+                                    <i class="fas fa-volume-up mr-2"></i>Hear Envy's Voice
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Energetic & Inspiring</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                Envy connects with teenagers and young adults through contemporary language, trending topics, and interactive learning. 
+                                She makes education exciting and relevant to modern youth culture while maintaining educational excellence.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-fire text-purple-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Trendy & Current</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Uses latest memes and references</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-gamepad text-purple-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Gamified Learning</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Challenges, competitions, and rewards</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-users text-purple-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Social Learning</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Group projects and peer interaction</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-star text-purple-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Motivational</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Encourages and celebrates achievements</p>
+                                </div>
+                            </div>
+                            <div class="bg-purple-50 dark:bg-purple-900 dark:bg-opacity-20 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">Perfect for:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-purple-500 text-white rounded-full text-sm">High School</span>
+                                    <span class="px-3 py-1 bg-purple-500 text-white rounded-full text-sm">College Prep</span>
+                                    <span class="px-3 py-1 bg-purple-500 text-white rounded-full text-sm">Creative Skills</span>
+                                    <span class="px-3 py-1 bg-purple-500 text-white rounded-full text-sm">Social Media</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mixi Details -->
+                <div id="mixi-details" class="avatar-details hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <div class="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl p-12 text-center text-white">
+                                <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-wiggle">
+                                    <i class="fas fa-child text-6xl"></i>
+                                </div>
+                                <h2 class="text-4xl font-bold mb-4">Meet Mixi</h2>
+                                <p class="text-xl text-yellow-100 mb-6">Your Playful Learning Buddy</p>
+                                <button id="mixiVoiceBtn" class="bg-white bg-opacity-20 rounded-full px-6 py-3 hover:bg-opacity-30 transition-all">
+                                    <i class="fas fa-volume-up mr-2"></i>Hear Mixi's Voice
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Playful & Patient</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                Mixi specializes in making learning fun and engaging for children. With colorful animations, interactive games, 
+                                and age-appropriate explanations, she ensures that young learners stay curious and excited about education.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-puzzle-piece text-yellow-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Interactive Games</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Learning through play and exploration</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-palette text-yellow-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Visual & Colorful</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Bright animations and illustrations</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-heart text-yellow-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Patient & Kind</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Never rushes, always encouraging</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-music text-yellow-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Songs & Stories</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Educational content through music</p>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 dark:bg-yellow-900 dark:bg-opacity-20 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">Perfect for:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-yellow-500 text-white rounded-full text-sm">Elementary Math</span>
+                                    <span class="px-3 py-1 bg-yellow-500 text-white rounded-full text-sm">Reading Skills</span>
+                                    <span class="px-3 py-1 bg-yellow-500 text-white rounded-full text-sm">Science Fun</span>
+                                    <span class="px-3 py-1 bg-yellow-500 text-white rounded-full text-sm">Creative Arts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Plexi Details -->
+                <div id="plexi-details" class="avatar-details hidden">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <div class="bg-gradient-to-br from-green-500 to-emerald-500 rounded-3xl p-12 text-center text-white">
+                                <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-slow">
+                                    <i class="fas fa-graduation-cap text-6xl"></i>
+                                </div>
+                                <h2 class="text-4xl font-bold mb-4">Meet Plexi</h2>
+                                <p class="text-xl text-green-100 mb-6">Your Academic Research Partner</p>
+                                <button id="plexiVoiceBtn" class="bg-white bg-opacity-20 rounded-full px-6 py-3 hover:bg-opacity-30 transition-all">
+                                    <i class="fas fa-volume-up mr-2"></i>Hear Plexi's Voice
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Scholarly & Analytical</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                Plexi is designed for academics, researchers, and advanced learners who require deep, comprehensive knowledge. 
+                                She excels at breaking down complex theories, facilitating research, and providing detailed academic support.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-microscope text-green-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Research-Focused</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Methodical approach to learning</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-book text-green-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Comprehensive</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Deep dive into complex subjects</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-brain text-green-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Critical Thinking</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Develops analytical skills</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-quote-left text-green-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Evidence-Based</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Cites sources and references</p>
+                                </div>
+                            </div>
+                            <div class="bg-green-50 dark:bg-green-900 dark:bg-opacity-20 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">Perfect for:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-green-500 text-white rounded-full text-sm">PhD Research</span>
+                                    <span class="px-3 py-1 bg-green-500 text-white rounded-full text-sm">Academic Writing</span>
+                                    <span class="px-3 py-1 bg-green-500 text-white rounded-full text-sm">Literature Review</span>
+                                    <span class="px-3 py-1 bg-green-500 text-white rounded-full text-sm">Advanced Studies</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voxy Details -->
+                <div id="voxy-details" class="avatar-details active">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                        <div>
+                            <div class="bg-gradient-to-br from-red-500 to-rose-500 rounded-3xl p-12 text-center text-white">
+                                <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-spin-slow">
+                                    <i class="fas fa-magic text-6xl"></i>
+                                </div>
+                                <h2 class="text-4xl font-bold mb-4">Meet Voxy</h2>
+                                <p class="text-xl text-red-100 mb-6">Your Universal Learning Guide</p>
+                                <button id="voxyVoiceBtn" class="bg-white bg-opacity-20 rounded-full px-6 py-3 hover:bg-opacity-30 transition-all">
+                                    <i class="fas fa-volume-up mr-2"></i>Hear Voxy's Voice
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Adaptive & Versatile</h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                                Voxy is the ultimate adaptive avatar who can transform to match any learning need or age group. 
+                                She combines the best features of all other avatars and can seamlessly switch between different teaching styles.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-shape-shifter text-red-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Shape-Shifter</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Adapts personality to user needs</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-cog text-red-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Multi-Modal</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Combines all learning styles</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-lightbulb text-red-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Innovative</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Always trying new approaches</p>
+                                </div>
+                                <div class="personality-trait p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                    <i class="fas fa-infinity text-red-500 text-xl mb-2"></i>
+                                    <h4 class="font-semibold mb-1">Limitless</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">No subject boundaries</p>
+                                </div>
+                            </div>
+                            <div class="bg-red-50 dark:bg-red-900 dark:bg-opacity-20 rounded-lg p-6">
+                                <h4 class="text-lg font-semibold mb-3">Perfect for:</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-red-500 text-white rounded-full text-sm">All Ages</span>
+                                    <span class="px-3 py-1 bg-red-500 text-white rounded-full text-sm">Any Subject</span>
+                                    <span class="px-3 py-1 bg-red-500 text-white rounded-full text-sm">Mixed Groups</span>
+                                    <span class="px-3 py-1 bg-red-500 text-white rounded-full text-sm">Complex Needs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Demo Section -->
+                <div id="chatDemo" class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-center">Experience a Conversation</h3>
+                    <div class="max-w-2xl mx-auto">
+                        <div id="chatMessages" class="space-y-4 mb-6 max-h-96 overflow-y-auto">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas fa-magic text-white"></i>
+                                </div>
+                                <div class="chat-bubble">
+                                    <p class="text-base">Hi there! I'm Voxy, your adaptive learning companion. What would you like to learn today?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">
+                            <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                            <button id="sendMessage" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 text-center">This is a demo conversation. Real avatars provide much more interactive experiences!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avatar Features Section -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Advanced Avatar Features</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Our AI avatars come packed with cutting-edge features that make learning more effective and engaging.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Memory & Context</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Remembers your progress, preferences, and learning style across sessions for personalized experiences.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-microphone text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Voice Interaction</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Natural speech recognition and synthesis in multiple languages with emotional expression.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-heart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Emotional Intelligence</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Recognizes and responds to emotional cues, providing encouragement and motivation when needed.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-cog text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Adaptive Learning</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Adjusts difficulty, pacing, and teaching methods based on your performance and feedback.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Multilingual</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Supports 15+ languages with cultural awareness and region-specific teaching approaches.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="w-16 h-16 bg-indigo-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-magic text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Dynamic Appearance</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base">
+                        Changes appearance, clothing, and environment to match the subject being taught.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">What Learners Say</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Hear from real users about their experiences with our AI avatar tutors.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Sarah M.</h3>
+                            <p class="text-gray-500">Marketing Professional</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 text-base">
+                        "Alexa helped me transition from marketing to data science. Her professional approach and industry insights made the journey smooth and effective."
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-child text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Emma (age 8)</h3>
+                            <p class="text-gray-500">Elementary Student</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 text-base">
+                        "Mixi is so fun! She teaches me math with games and songs. I love when she tells me stories about numbers!"
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-graduation-cap text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Dr. James K.</h3>
+                            <p class="text-gray-500">PhD Researcher</p>
+                            <div class="flex text-yellow-400 mt-1">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 text-base">
+                        "Plexi's analytical approach and comprehensive knowledge helped me structure my dissertation and explore complex research methodologies."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-purple-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Meet Your Perfect Tutor?</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Start your personalized learning journey today with an AI avatar that understands your needs.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="px-8 py-4 text-lg bg-white text-primary rounded-lg hover:bg-gray-100 transition-all font-semibold">
+                    <i class="fas fa-play mr-2"></i>Start Free Trial
+                </button>
+                <button class="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-primary rounded-lg transition-all font-semibold">
+                    <i class="fas fa-calendar mr-2"></i>Schedule Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">SkillForge AI</h3>
+                            <p class="text-xs text-gray-400">Shape Your Future</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed mb-6">
+                        Empowering learners with personalized AI avatar tutors that adapt to every age and learning style.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Our Avatars</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Alexa - Professional</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Envy - Youth</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Mixi - Children</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Plexi - Academic</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Voxy - Universal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Features</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Voice Interaction</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Emotional Intelligence</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Memory System</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Multilingual</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-400 text-base text-center">
+                    © 2024 SkillForge AI. All rights reserved. • Powered by Advanced AI Technology
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        // Initialize dark mode
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+        } else if (systemPrefersDark) {
+            html.classList.add('dark');
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (!localStorage.getItem('theme')) {
+                if (event.matches) {
+                    html.classList.add('dark');
+                } else {
+                    html.classList.remove('dark');
+                }
+            }
+        });
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                line1.style.transform = 'rotate(0deg) translateY(0px)';
+                line2.style.opacity = '1';
+                line3.style.transform = 'rotate(0deg) translateY(0px)';
+            } else {
+                line1.style.transform = 'rotate(45deg) translateY(6px)';
+                line2.style.opacity = '0';
+                line3.style.transform = 'rotate(-45deg) translateY(-6px)';
+            }
+        });
+
+        // Avatar selection functionality
+        const avatarSelectors = document.querySelectorAll('.avatar-selector');
+        const avatarDetails = document.querySelectorAll('.avatar-details');
+        const chatMessages = document.getElementById('chatMessages');
+
+        // Avatar data for chat responses
+        const avatarData = {
+            alexa: {
+                name: 'Alexa',
+                color: 'blue-500',
+                icon: 'user-tie',
+                responses: [
+                    "Let's focus on your career objectives. What specific skills would you like to develop?",
+                    "I can help you create a strategic learning plan that aligns with your professional goals.",
+                    "Would you like to explore leadership development or technical skills enhancement?"
+                ]
+            },
+            envy: {
+                name: 'Envy',
+                color: 'purple-500',
+                icon: 'rocket',
+                responses: [
+                    "Hey there! 🚀 What exciting stuff do you want to learn today?",
+                    "Let's make this learning journey absolutely epic! What's your vibe?",
+                    "I've got some super cool challenges that'll blow your mind. Ready to level up?"
+                ]
+            },
+            mixi: {
+                name: 'Mixi',
+                color: 'yellow-500',
+                icon: 'child',
+                responses: [
+                    "Hi there, little explorer! 🌟 What fun things shall we discover together?",
+                    "I love learning with you! Should we play a game or sing a song while we learn?",
+                    "Wow, you're so smart! What would you like to explore in our magical learning land?"
+                ]
+            },
+            plexi: {
+                name: 'Plexi',
+                color: 'green-500',
+                icon: 'graduation-cap',
+                responses: [
+                    "Greetings. What complex subject matter would you like to analyze today?",
+                    "I'm here to assist with your academic research. What methodological approach interests you?",
+                    "Shall we examine this topic through a comprehensive analytical framework?"
+                ]
+            },
+            voxy: {
+                name: 'Voxy',
+                color: 'red-500',
+                icon: 'magic',
+                responses: [
+                    "Hello! I can adapt to any learning style you prefer. How would you like to approach today's lesson?",
+                    "I'm here to be whatever kind of tutor you need. Shall I be more playful, professional, or academic?",
+                    "What's your learning goal today? I'll transform to match exactly what you need!"
+                ]
+            }
+        };
+
+        let currentAvatar = 'voxy';
+
+        // Avatar selection event listeners
+        avatarSelectors.forEach(selector => {
+            selector.addEventListener('click', () => {
+                const avatarId = selector.dataset.avatar;
+                selectAvatar(avatarId);
+            });
+        });
+
+        function selectAvatar(avatarId) {
+            // Update active selector
+            avatarSelectors.forEach(s => s.classList.remove('active'));
+            document.querySelector(`[data-avatar="${avatarId}"]`).classList.add('active');
+
+            // Update details display
+            avatarDetails.forEach(detail => detail.classList.add('hidden'));
+            document.getElementById(`${avatarId}-details`).classList.remove('hidden');
+
+            // Update current avatar
+            currentAvatar = avatarId;
+
+            // Clear chat and add welcome message
+            const welcomeMessage = createChatMessage(avatarData[avatarId].responses[0], avatarId, true);
+            chatMessages.innerHTML = '';
+            chatMessages.appendChild(welcomeMessage);
+        }
+
+        // Voice button functionality
+        const voiceButtons = ['alexaVoiceBtn', 'envyVoiceBtn', 'mixiVoiceBtn', 'plexiVoiceBtn', 'voxyVoiceBtn'];
+        
+        voiceButtons.forEach(buttonId => {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.addEventListener('click', () => {
+                    playVoiceDemo(buttonId);
+                });
+            }
+        });
+
+        function playVoiceDemo(buttonId) {
+            const button = document.getElementById(buttonId);
+            const originalText = button.innerHTML;
+            
+            // Show voice animation
+            button.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                    <div class="voice-wave"></div>
+                </div>
+            `;
+            
+            // Reset after animation
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 3000);
+
+            // Show custom modal with voice info
+            showVoiceModal(buttonId);
+        }
+
+        function showVoiceModal(buttonId) {
+            const avatarName = buttonId.replace('VoiceBtn', '').replace(/^./, str => str.toUpperCase());
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-xl max-w-md w-full mx-4">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-volume-up text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">${avatarName}'s Voice Demo</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            This is a preview of ${avatarName}'s unique voice and personality. In the full version, 
+                            you'll experience natural conversations with speech recognition and synthesis.
+                        </p>
+                        <button class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onclick="this.closest('.fixed').remove()">
+                            Got it!
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Chat functionality
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendMessage');
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        sendButton.addEventListener('click', sendChatMessage);
+
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            const userMessage = createChatMessage(message, 'user', false);
+            chatMessages.appendChild(userMessage);
+
+            // Clear input
+            chatInput.value = '';
+
+            // Add avatar response after delay
+            setTimeout(() => {
+                const avatarResponseIndex = Math.floor(Math.random() * avatarData[currentAvatar].responses.length);
+                const response = avatarData[currentAvatar].responses[avatarResponseIndex];
+                const avatarMessage = createChatMessage(response, currentAvatar, true);
+                chatMessages.appendChild(avatarMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function createChatMessage(text, sender, isAvatar) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start';
+            
+            if (isAvatar) {
+                const avatarInfo = avatarData[sender];
+                messageDiv.innerHTML = `
+                    <div class="w-12 h-12 bg-${avatarInfo.color} rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <i class="fas fa-${avatarInfo.icon} text-white"></i>
+                    </div>
+                    <div class="chat-bubble">
+                        <p class="text-base">${text}</p>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div class="chat-bubble">
+                        <p class="text-base">${text}</p>
+                    </div>
+                `;
+            }
+            
+            return messageDiv;
+        }
+
+        // Initialize default avatar (Voxy)
+        document.addEventListener('DOMContentLoaded', () => {
+            selectAvatar('voxy');
+        });
+
+        console.log('SkillForge AI Avatars Page loaded successfully! 🤖');
+    </script>
+</body>
+</html>

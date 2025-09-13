@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - SkillForge AI | Career Insights & Learning Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.6s ease-out'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+        
+        .blog-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .blog-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .featured-overlay {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.8), rgba(139, 92, 246, 0.8));
+        }
+        
+        .category-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .category-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .category-tag.active {
+            background-color: #5D5CDE;
+            color: white;
+        }
+        
+        .reading-time {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .like-button {
+            transition: all 0.2s ease;
+        }
+        
+        .like-button.liked {
+            color: #EF4444;
+            transform: scale(1.1);
+        }
+        
+        .share-button {
+            transition: all 0.2s ease;
+        }
+        
+        .share-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .author-avatar {
+            transition: all 0.3s ease;
+        }
+        
+        .author-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .search-highlight {
+            background-color: yellow;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .dark .search-highlight {
+            background-color: #F59E0B;
+            color: #1F2937;
+        }
+        
+        .sidebar-sticky {
+            position: sticky;
+            top: 120px;
+        }
+        
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #5D5CDE, #8B5CF6);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        .comment-thread {
+            border-left: 2px solid #E5E7EB;
+            margin-left: 1rem;
+            padding-left: 1rem;
+        }
+        
+        .dark .comment-thread {
+            border-left-color: #374151;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="readingProgress"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">SkillForge AI</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Shape Your Future</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-base hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="text-base hover:text-primary transition-colors">Courses</a>
+                    <a href="careers.html" class="text-base hover:text-primary transition-colors">Careers</a>
+                    <a href="avatars.html" class="text-base hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="text-base hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="text-base hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="text-base text-primary font-semibold">Blog</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 dark:bg-dark-card rounded-full px-4 py-2 max-w-xs">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
+                    <input type="text" id="blogSearch" placeholder="Search articles..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-3">
+                        <button class="px-4 py-2 text-base text-primary hover:bg-primary hover:text-white rounded-lg transition-all">Login</button>
+                        <button class="px-6 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Subscribe</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-around">
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line1"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line2"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line3"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="lg:hidden mt-4 hidden">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-6 space-y-4">
+                    <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-3 mb-4">
+                        <i class="fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="Search articles..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                    </div>
+                    <a href="index.html" class="block text-base py-2 hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="block text-base py-2 hover:text-primary transition-colors">Courses</a>
+                    <a href="careers.html" class="block text-base py-2 hover:text-primary transition-colors">Careers</a>
+                    <a href="avatars.html" class="block text-base py-2 hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="block text-base py-2 hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="block text-base py-2 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="block text-base py-2 text-primary font-semibold">Blog</a>
+                    <div class="pt-4 space-y-3">
+                        <button class="w-full px-4 py-3 text-base text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Login</button>
+                        <button class="w-full px-4 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Featured Article Hero -->
+    <section class="pt-24 pb-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center text-white mb-12">
+                <span class="inline-block px-4 py-2 bg-white bg-opacity-20 rounded-full text-sm font-semibold mb-4">Featured Article</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    The Future of AI in Career Development: What You Need to Know
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
+                    Discover how artificial intelligence is revolutionizing the way we learn, develop skills, and advance our careers in 2024 and beyond.
+                </p>
+                <div class="flex items-center justify-center space-x-6 mb-8">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-semibold">Dr. Sarah Chen</p>
+                            <p class="text-blue-200 text-sm">AI Research Lead</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-blue-200">
+                        <i class="fas fa-calendar mr-2"></i>
+                        <span>Dec 15, 2024</span>
+                    </div>
+                    <div class="flex items-center text-blue-200">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>8 min read</span>
+                    </div>
+                </div>
+                <button id="readFeaturedBtn" class="px-8 py-4 text-lg bg-white text-purple-600 rounded-lg hover:bg-gray-100 transition-all font-semibold shadow-lg">
+                    <i class="fas fa-play mr-2"></i>Read Full Article
+                </button>
+            </div>
+        </div>
+        <!-- Floating shapes -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-float"></div>
+        <div class="absolute bottom-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-lg transform rotate-45 animate-float" style="animation-delay: 2s;"></div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <!-- Categories & Filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button class="category-tag active px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-category="all">All Posts</button>
+                <button class="category-tag px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary transition-all" data-category="career-advice">Career Advice</button>
+                <button class="category-tag px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary transition-all" data-category="ai-insights">AI Insights</button>
+                <button class="category-tag px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary transition-all" data-category="success-stories">Success Stories</button>
+                <button class="category-tag px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary transition-all" data-category="learning-tips">Learning Tips</button>
+                <button class="category-tag px-6 py-3 text-base rounded-full border border-gray-300 dark:border-gray-600 hover:border-primary transition-all" data-category="industry-trends">Industry Trends</button>
+            </div>
+
+            <div class="grid lg:grid-cols-4 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-3">
+                    <!-- Blog Grid -->
+                    <div id="blogGrid" class="grid md:grid-cols-2 gap-8 mb-12">
+                        <!-- Blog posts will be dynamically loaded here -->
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="text-center">
+                        <button id="loadMoreBtn" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                            Load More Articles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="sidebar-sticky space-y-8">
+                        <!-- Newsletter Signup -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-4">Stay Updated</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                                Get the latest career insights and AI developments delivered to your inbox.
+                            </p>
+                            <form id="newsletterForm" class="space-y-3">
+                                <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                                <button type="submit" class="w-full px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                                    Subscribe Now
+                                </button>
+                            </form>
+                            <p class="text-xs text-gray-500 mt-3">15,000+ subscribers • Unsubscribe anytime</p>
+                        </div>
+
+                        <!-- Popular Posts -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Popular This Week</h3>
+                            <div id="popularPosts" class="space-y-4">
+                                <!-- Popular posts will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Categories</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 dark:text-gray-300">Career Advice</span>
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">24</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 dark:text-gray-300">AI Insights</span>
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">18</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 dark:text-gray-300">Success Stories</span>
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">15</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 dark:text-gray-300">Learning Tips</span>
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">12</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 dark:text-gray-300">Industry Trends</span>
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full text-xs">9</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Popular Tags</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">AI</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Career</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Skills</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Technology</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Learning</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Future</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Success</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white cursor-pointer transition-all">Growth</span>
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-6">Follow Us</h3>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white hover:bg-gray-900 transition-colors">
+                                    <i class="fab fa-medium"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">SkillForge AI</h3>
+                            <p class="text-xs text-gray-400">Shape Your Future</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed">
+                        Empowering professionals with AI-powered career insights, personalized learning paths, and industry expertise.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Blog Topics</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Advice</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">AI Insights</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Success Stories</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Learning Tips</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Assessment</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Course Catalog</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">AI Tutors</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Newsletter</h4>
+                    <p class="text-gray-300 text-base mb-4">Get weekly insights delivered to your inbox</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:border-primary text-base">
+                        <button class="px-4 py-2 bg-primary hover:bg-primary-dark rounded-r-lg transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-400 text-base text-center">
+                    © 2024 SkillForge AI. All rights reserved. • Inspiring Career Transformations Daily
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Blog Article Modal -->
+    <div id="articleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-scale-in">
+            <div class="sticky top-0 bg-white dark:bg-dark-card p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <button id="bookmarkBtn" class="p-2 text-gray-400 hover:text-primary transition-colors">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                    <div class="flex space-x-2">
+                        <button class="share-button p-2 text-gray-400 hover:text-blue-500 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="share-button p-2 text-gray-400 hover:text-blue-700 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </button>
+                        <button class="share-button p-2 text-gray-400 hover:text-green-600 transition-colors">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+                <button id="closeArticleModal" class="text-gray-400 hover:text-gray-600 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="articleContent" class="p-6">
+                <!-- Article content will be loaded here -->
+            </div>
+            
+            <!-- Comments Section -->
+            <div class="p-6 border-t border-gray-200 dark:border-gray-700">
+                <h3 class="text-2xl font-bold mb-6">Comments <span id="commentCount" class="text-gray-500 text-lg">(3)</span></h3>
+                
+                <!-- Add Comment Form -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-6">
+                    <textarea placeholder="Share your thoughts..." class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg resize-none outline-none focus:border-primary transition-colors" rows="3"></textarea>
+                    <div class="flex justify-between items-center mt-3">
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span>500 characters remaining</span>
+                        </div>
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                            Post Comment
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Comments List -->
+                <div id="commentsList" class="space-y-6">
+                    <!-- Comments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Success Modal -->
+    <div id="newsletterModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-xl max-w-md w-full mx-4 animate-scale-in">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Successfully Subscribed!</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6">
+                    Thank you for subscribing to our newsletter. You'll receive the latest career insights and AI developments.
+                </p>
+                <button id="closeNewsletterModal" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample blog data
+        const blogPosts = [
+            {
+                id: 1,
+                title: "10 AI Tools Every Professional Should Know in 2024",
+                excerpt: "Discover the most powerful AI tools that are transforming how we work and learn.",
+                content: `<h2>The AI Revolution in Professional Development</h2>
+                <p>Artificial Intelligence has become an integral part of our professional lives. From automating routine tasks to providing intelligent insights, AI tools are reshaping how we approach work and learning.</p>
+                
+                <h3>1. ChatGPT for Content Creation</h3>
+                <p>ChatGPT has revolutionized content creation, helping professionals draft emails, create presentations, and brainstorm ideas more efficiently.</p>
+                
+                <h3>2. Notion AI for Project Management</h3>
+                <p>Notion AI combines project management with intelligent assistance, making it easier to organize tasks and collaborate with teams.</p>
+                
+                <h3>3. GitHub Copilot for Developers</h3>
+                <p>This AI pair programmer helps developers write code faster and with fewer errors, dramatically improving productivity.</p>
+                
+                <p>The key to success in 2024 is not just using these tools, but understanding how to integrate them into your workflow effectively.</p>`,
+                category: "ai-insights",
+                author: {
+                    name: "Alex Johnson",
+                    avatar: "fas fa-user",
+                    bio: "AI Researcher & Tech Writer"
+                },
+                date: "2024-12-14",
+                readTime: 6,
+                likes: 245,
+                comments: 18,
+                tags: ["AI", "Tools", "Productivity", "Technology"],
+                image: "from-blue-500 to-cyan-500"
+            },
+            {
+                id: 2,
+                title: "From Teaching to Tech: My Career Transformation Story",
+                excerpt: "How I successfully transitioned from a 10-year teaching career to becoming a software engineer.",
+                content: `<h2>The Decision to Change</h2>
+                <p>After 10 years in education, I realized I needed a change. The desire to solve problems through technology and the potential for growth in the tech industry motivated my career pivot.</p>
+                
+                <h3>The Learning Journey</h3>
+                <p>I started with online courses, dedicating 2-3 hours daily to learning programming fundamentals. The key was consistency and building projects to apply what I learned.</p>
+                
+                <h3>Breaking into Tech</h3>
+                <p>Networking played a crucial role. I attended local meetups, contributed to open source projects, and gradually built a portfolio that showcased my skills.</p>
+                
+                <p>Today, I work as a full-stack developer and couldn't be happier with my decision. The transition was challenging but incredibly rewarding.</p>`,
+                category: "success-stories",
+                author: {
+                    name: "Maria Garcia",
+                    avatar: "fas fa-user",
+                    bio: "Software Engineer & Career Coach"
+                },
+                date: "2024-12-12",
+                readTime: 8,
+                likes: 189,
+                comments: 24,
+                tags: ["Career Change", "Success Story", "Tech", "Education"],
+                image: "from-green-500 to-emerald-500"
+            },
+            {
+                id: 3,
+                title: "The Science of Effective Learning: 5 Proven Strategies",
+                excerpt: "Research-backed methods to accelerate your learning and retain information better.",
+                content: `<h2>Understanding How We Learn</h2>
+                <p>Effective learning isn't just about spending more time studying. It's about using proven strategies that work with how our brains naturally process and retain information.</p>
+                
+                <h3>1. Spaced Repetition</h3>
+                <p>Review material at increasing intervals to move information from short-term to long-term memory effectively.</p>
+                
+                <h3>2. Active Recall</h3>
+                <p>Test yourself frequently instead of just re-reading notes. This strengthens neural pathways and improves retention.</p>
+                
+                <h3>3. Interleaving</h3>
+                <p>Mix different types of problems or subjects in your study sessions rather than focusing on one topic at a time.</p>
+                
+                <p>Implementing these strategies can dramatically improve your learning efficiency and retention rates.</p>`,
+                category: "learning-tips",
+                author: {
+                    name: "Dr. Jennifer Lee",
+                    avatar: "fas fa-user",
+                    bio: "Cognitive Scientist & Learning Expert"
+                },
+                date: "2024-12-10",
+                readTime: 7,
+                likes: 312,
+                comments: 15,
+                tags: ["Learning", "Science", "Memory", "Study Tips"],
+                image: "from-purple-500 to-pink-500"
+            },
+            {
+                id: 4,
+                title: "Remote Work Skills That Will Define Your Career Success",
+                excerpt: "Essential skills for thriving in the remote work environment of the future.",
+                content: `<h2>The Remote Work Revolution</h2>
+                <p>Remote work is here to stay. Success in this environment requires a unique set of skills that go beyond technical expertise.</p>
+                
+                <h3>Communication Excellence</h3>
+                <p>Clear, concise communication becomes even more critical when you're not sharing the same physical space with colleagues.</p>
+                
+                <h3>Self-Management</h3>
+                <p>The ability to stay motivated, set boundaries, and manage your time effectively is crucial for remote work success.</p>
+                
+                <h3>Digital Collaboration</h3>
+                <p>Mastering collaboration tools and understanding virtual team dynamics will set you apart in the remote work landscape.</p>`,
+                category: "career-advice",
+                author: {
+                    name: "Michael Chen",
+                    avatar: "fas fa-user",
+                    bio: "Remote Work Consultant"
+                },
+                date: "2024-12-08",
+                readTime: 5,
+                likes: 156,
+                comments: 12,
+                tags: ["Remote Work", "Skills", "Career", "Future"],
+                image: "from-orange-500 to-red-500"
+            },
+            {
+                id: 5,
+                title: "Industry 4.0: How Manufacturing is Embracing AI",
+                excerpt: "Exploring the transformation of manufacturing through artificial intelligence and automation.",
+                content: `<h2>The Fourth Industrial Revolution</h2>
+                <p>Industry 4.0 represents a fundamental shift in how we approach manufacturing, driven by AI, IoT, and advanced automation.</p>
+                
+                <h3>Smart Factories</h3>
+                <p>AI-powered factories can predict maintenance needs, optimize production schedules, and reduce waste through intelligent monitoring.</p>
+                
+                <h3>Quality Control Revolution</h3>
+                <p>Computer vision and machine learning are enabling unprecedented levels of quality control and defect detection.</p>
+                
+                <p>The manufacturing workforce of tomorrow will need to adapt to work alongside intelligent systems.</p>`,
+                category: "industry-trends",
+                author: {
+                    name: "Robert Kim",
+                    avatar: "fas fa-user",
+                    bio: "Manufacturing Technology Analyst"
+                },
+                date: "2024-12-06",
+                readTime: 9,
+                likes: 203,
+                comments: 8,
+                tags: ["Industry 4.0", "Manufacturing", "AI", "Automation"],
+                image: "from-indigo-500 to-purple-500"
+            },
+            {
+                id: 6,
+                title: "Building Your Personal Brand in the Digital Age",
+                excerpt: "Strategic approaches to developing and maintaining your professional online presence.",
+                content: `<h2>Your Digital Professional Identity</h2>
+                <p>In today's connected world, your personal brand is often the first impression you make on potential employers, clients, or collaborators.</p>
+                
+                <h3>Consistency Across Platforms</h3>
+                <p>Maintain a consistent professional image across LinkedIn, Twitter, GitHub, and other professional platforms.</p>
+                
+                <h3>Content Strategy</h3>
+                <p>Share valuable insights, engage with industry discussions, and showcase your expertise through thoughtful content.</p>
+                
+                <h3>Networking and Engagement</h3>
+                <p>Build meaningful professional relationships by actively participating in industry conversations and supporting others.</p>`,
+                category: "career-advice",
+                author: {
+                    name: "Sarah Williams",
+                    avatar: "fas fa-user",
+                    bio: "Personal Branding Strategist"
+                },
+                date: "2024-12-04",
+                readTime: 6,
+                likes: 278,
+                comments: 21,
+                tags: ["Personal Branding", "Digital Marketing", "Career", "Networking"],
+                image: "from-teal-500 to-blue-500"
+            }
+        ];
+
+        const comments = {
+            1: [
+                {
+                    id: 1,
+                    author: "John Doe",
+                    content: "Great insights! I've been using ChatGPT for months and it's definitely improved my productivity.",
+                    date: "2024-12-14",
+                    likes: 5,
+                    replies: []
+                },
+                {
+                    id: 2,
+                    author: "Jane Smith",
+                    content: "Thanks for the comprehensive list. I wasn't aware of some of these tools!",
+                    date: "2024-12-14",
+                    likes: 3,
+                    replies: [
+                        {
+                            id: 3,
+                            author: "Alex Johnson",
+                            content: "Happy to help! Let me know if you try any of them.",
+                            date: "2024-12-14",
+                            likes: 1
+                        }
+                    ]
+                }
+            ]
+        };
+
+        let displayedPosts = 6;
+        let selectedCategory = 'all';
+        let searchQuery = '';
+
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+        } else if (systemPrefersDark) {
+            html.classList.add('dark');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                line1.style.transform = 'rotate(0deg) translateY(0px)';
+                line2.style.opacity = '1';
+                line3.style.transform = 'rotate(0deg) translateY(0px)';
+            } else {
+                line1.style.transform = 'rotate(45deg) translateY(6px)';
+                line2.style.opacity = '0';
+                line3.style.transform = 'rotate(-45deg) translateY(-6px)';
+            }
+        });
+
+        // Blog rendering
+        function renderBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            let filteredPosts = blogPosts;
+
+            // Filter by category
+            if (selectedCategory !== 'all') {
+                filteredPosts = filteredPosts.filter(post => post.category === selectedCategory);
+            }
+
+            // Filter by search query
+            if (searchQuery) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+                );
+            }
+
+            const postsToShow = filteredPosts.slice(0, displayedPosts);
+
+            blogGrid.innerHTML = postsToShow.map(post => `
+                <article class="blog-card bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden" data-post-id="${post.id}">
+                    <div class="h-48 bg-gradient-to-r ${post.image} flex items-center justify-center">
+                        <i class="fas fa-newspaper text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-xs font-semibold uppercase">${post.category.replace('-', ' ')}</span>
+                            <div class="flex items-center text-sm text-gray-500 space-x-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    <span class="reading-time">${post.readTime} min</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar mr-1"></i>
+                                    <span>${formatDate(post.date)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-xl font-bold mb-3 line-clamp-2 hover:text-primary transition-colors cursor-pointer">${post.title}</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">${post.excerpt}</p>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mr-3 author-avatar">
+                                    <i class="${post.author.avatar} text-gray-600 dark:text-gray-300 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm">${post.author.name}</p>
+                                    <p class="text-xs text-gray-500">${post.author.bio}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex space-x-4">
+                                <button class="like-button flex items-center text-gray-500 hover:text-red-500 transition-colors" data-post-id="${post.id}">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span>${post.likes}</span>
+                                </button>
+                                <button class="flex items-center text-gray-500 hover:text-blue-500 transition-colors">
+                                    <i class="fas fa-comment mr-1"></i>
+                                    <span>${post.comments}</span>
+                                </button>
+                                <button class="share-button text-gray-500 hover:text-green-500 transition-colors">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                            <button class="text-primary hover:text-primary-dark font-semibold text-sm transition-colors">
+                                Read More →
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            // Update load more button
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (displayedPosts >= filteredPosts.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+
+            // Add click listeners
+            document.querySelectorAll('.blog-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('button')) {
+                        const postId = parseInt(card.dataset.postId);
+                        showArticleModal(postId);
+                    }
+                });
+            });
+
+            // Add like button listeners
+            document.querySelectorAll('.like-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const postId = parseInt(button.dataset.postId);
+                    toggleLike(postId, button);
+                });
+            });
+        }
+
+        // Render popular posts
+        function renderPopularPosts() {
+            const popularPostsContainer = document.getElementById('popularPosts');
+            const popularPosts = blogPosts
+                .sort((a, b) => b.likes - a.likes)
+                .slice(0, 5);
+
+            popularPostsContainer.innerHTML = popularPosts.map(post => `
+                <div class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-2 rounded-lg transition-colors" data-post-id="${post.id}">
+                    <div class="w-12 h-12 bg-gradient-to-r ${post.image} rounded-lg flex-shrink-0 flex items-center justify-center">
+                        <i class="fas fa-newspaper text-white text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm line-clamp-2 mb-1">${post.title}</h4>
+                        <div class="flex items-center text-xs text-gray-500 space-x-2">
+                            <span>${formatDate(post.date)}</span>
+                            <span>•</span>
+                            <span>${post.likes} likes</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click listeners
+            document.querySelectorAll('#popularPosts [data-post-id]').forEach(item => {
+                item.addEventListener('click', () => {
+                    const postId = parseInt(item.dataset.postId);
+                    showArticleModal(postId);
+                });
+            });
+        }
+
+        // Category filter functionality
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                selectedCategory = tag.dataset.category;
+                displayedPosts = 6;
+                renderBlogPosts();
+            });
+        });
+
+        // Search functionality
+        document.getElementById('blogSearch').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            displayedPosts = 6;
+            renderBlogPosts();
+        });
+
+        // Load more functionality
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+            displayedPosts += 6;
+            renderBlogPosts();
+        });
+
+        // Article modal
+        function showArticleModal(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            const articleContent = document.getElementById('articleContent');
+            articleContent.innerHTML = `
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-4 py-2 bg-primary bg-opacity-10 text-primary rounded-full text-sm font-semibold uppercase">${post.category.replace('-', ' ')}</span>
+                        <div class="flex items-center text-sm text-gray-500 space-x-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>${post.readTime} min read</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar mr-2"></i>
+                                <span>${formatDate(post.date)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h1 class="text-4xl font-bold mb-6 leading-tight">${post.title}</h1>
+                    
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center mr-4">
+                                <i class="${post.author.avatar} text-gray-600 dark:text-gray-300"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">${post.author.name}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">${post.author.bio}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <button class="like-button flex items-center text-gray-500 hover:text-red-500 transition-colors" data-post-id="${post.id}">
+                                <i class="fas fa-heart mr-2"></i>
+                                <span>${post.likes}</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 hover:text-blue-500 transition-colors">
+                                <i class="fas fa-comment mr-2"></i>
+                                <span>${post.comments}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="prose dark:prose-invert max-w-none">
+                    ${post.content}
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+                    <h4 class="font-semibold mb-4">Tags:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${post.tags.map(tag => `
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm">${tag}</span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Load comments
+            loadComments(postId);
+
+            document.getElementById('articleModal').classList.remove('hidden');
+            document.getElementById('articleModal').classList.add('flex');
+        }
+
+        // Load comments
+        function loadComments(postId) {
+            const commentsList = document.getElementById('commentsList');
+            const postComments = comments[postId] || [];
+
+            commentsList.innerHTML = postComments.map(comment => `
+                <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user text-gray-600 dark:text-gray-300 text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h5 class="font-semibold">${comment.author}</h5>
+                                <span class="text-sm text-gray-500">${formatDate(comment.date)}</span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300 mb-3">${comment.content}</p>
+                            <div class="flex items-center space-x-4">
+                                <button class="flex items-center text-sm text-gray-500 hover:text-primary transition-colors">
+                                    <i class="fas fa-thumbs-up mr-1"></i>
+                                    <span>${comment.likes}</span>
+                                </button>
+                                <button class="text-sm text-gray-500 hover:text-primary transition-colors">
+                                    Reply
+                                </button>
+                            </div>
+                            
+                            ${comment.replies ? comment.replies.map(reply => `
+                                <div class="comment-thread mt-4">
+                                    <div class="flex items-start space-x-3">
+                                        <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-user text-gray-600 dark:text-gray-300 text-xs"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-2 mb-1">
+                                                <h6 class="font-semibold text-sm">${reply.author}</h6>
+                                                <span class="text-xs text-gray-500">${formatDate(reply.date)}</span>
+                                            </div>
+                                            <p class="text-gray-700 dark:text-gray-300 text-sm">${reply.content}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal close functionality
+        document.getElementById('closeArticleModal').addEventListener('click', () => {
+            document.getElementById('articleModal').classList.add('hidden');
+            document.getElementById('articleModal').classList.remove('flex');
+        });
+
+        // Featured article
+        document.getElementById('readFeaturedBtn').addEventListener('click', () => {
+            showArticleModal(1); // Show the first article as featured
+        });
+
+        // Newsletter functionality
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('newsletterModal').classList.remove('hidden');
+            document.getElementById('newsletterModal').classList.add('flex');
+        });
+
+        document.getElementById('closeNewsletterModal').addEventListener('click', () => {
+            document.getElementById('newsletterModal').classList.add('hidden');
+            document.getElementById('newsletterModal').classList.remove('flex');
+        });
+
+        // Like functionality
+        function toggleLike(postId, button) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            if (button.classList.contains('liked')) {
+                post.likes--;
+                button.classList.remove('liked');
+            } else {
+                post.likes++;
+                button.classList.add('liked');
+            }
+
+            button.querySelector('span').textContent = post.likes;
+        }
+
+        // Reading progress
+        window.addEventListener('scroll', () => {
+            const progressBar = document.getElementById('readingProgress');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight;
+            progressBar.style.width = (scrollPercent * 100) + '%';
+        });
+
+        // Utility functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderBlogPosts();
+            renderPopularPosts();
+        });
+
+        console.log('SkillForge AI Blog Page loaded successfully! 📝');
+    </script>
+</body>
+</html>

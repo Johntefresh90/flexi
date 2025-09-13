@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Explorer - SkillForge AI | Discover Your Perfect Career Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'slide-in': 'slideIn 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.6s ease-out'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+        
+        .career-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .career-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #5D5CDE;
+            box-shadow: 0 15px 30px rgba(93, 92, 222, 0.15);
+        }
+        
+        .career-card.selected {
+            border-color: #5D5CDE;
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.1), rgba(139, 92, 246, 0.1));
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .skill-tag {
+            transition: all 0.2s ease;
+        }
+        
+        .skill-tag:hover {
+            transform: scale(1.05);
+            background-color: rgba(93, 92, 222, 0.2);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.5s ease;
+        }
+        
+        .industry-filter {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .industry-filter:hover {
+            background-color: rgba(93, 92, 222, 0.1);
+        }
+        
+        .industry-filter.active {
+            background-color: #5D5CDE;
+            color: white;
+        }
+        
+        .salary-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #10B981, #3B82F6, #8B5CF6);
+            transition: all 0.3s ease;
+        }
+        
+        .career-path-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-line 2s ease-in-out forwards;
+        }
+        
+        @keyframes draw-line {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .modal {
+            backdrop-filter: blur(5px);
+        }
+        
+        .assessment-question {
+            transition: all 0.5s ease;
+        }
+        
+        .assessment-question.hidden {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        
+        .flip-card {
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">SkillForge AI</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Shape Your Future</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-base hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="text-base hover:text-primary transition-colors">Courses</a>
+                    <a href="#careers" class="text-base text-primary font-semibold">Careers</a>
+                    <a href="avatars.html" class="text-base hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="text-base hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="text-base hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="text-base hover:text-primary transition-colors">Blog</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 dark:bg-dark-card rounded-full px-4 py-2 max-w-xs">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
+                    <input type="text" id="careerSearch" placeholder="Search careers..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-3">
+                        <button class="px-4 py-2 text-base text-primary hover:bg-primary hover:text-white rounded-lg transition-all">Login</button>
+                        <button id="startAssessmentBtn" class="px-6 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Take Assessment</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-around">
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line1"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line2"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line3"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="lg:hidden mt-4 hidden">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-6 space-y-4">
+                    <a href="index.html" class="block text-base py-2 hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="block text-base py-2 hover:text-primary transition-colors">Courses</a>
+                    <a href="#careers" class="block text-base py-2 text-primary font-semibold">Careers</a>
+                    <a href="avatars.html" class="block text-base py-2 hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="block text-base py-2 hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="block text-base py-2 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="block text-base py-2 hover:text-primary transition-colors">Blog</a>
+                    <div class="pt-4 space-y-3">
+                        <button class="w-full px-4 py-3 text-base text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Login</button>
+                        <button class="w-full px-4 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Take Assessment</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Discover Your <span class="gradient-text">Dream Career</span><br>
+                    With AI-Powered Insights
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+                    Explore thousands of career paths, get personalized recommendations, and plan your journey to success with our advanced AI career advisor.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <button id="explorecareers" class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                        <i class="fas fa-compass mr-2"></i>Explore Careers
+                    </button>
+                    <button id="takeAssessment" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                        <i class="fas fa-brain mr-2"></i>AI Career Assessment
+                    </button>
+                </div>
+                <div class="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">2,500+</div>
+                        <div class="text-gray-600 dark:text-gray-400">Career Paths</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">15+</div>
+                        <div class="text-gray-600 dark:text-gray-400">Industries</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">AI-Powered</div>
+                        <div class="text-gray-600 dark:text-gray-400">Recommendations</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-2">Real-time</div>
+                        <div class="text-gray-600 dark:text-gray-400">Market Data</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Explorer Section -->
+    <section id="career-explorer" class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Career Explorer</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Browse careers by industry, explore job market trends, and discover what skills you need for your dream job.
+                </p>
+            </div>
+
+            <!-- Industry Filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button class="industry-filter active px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="all">All Industries</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="technology">Technology</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="healthcare">Healthcare</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="business">Business</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="engineering">Engineering</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="education">Education</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="creative">Creative</button>
+                <button class="industry-filter px-6 py-2 text-base rounded-full border border-gray-300 dark:border-gray-600 transition-all" data-industry="finance">Finance</button>
+            </div>
+
+            <!-- Career Grid -->
+            <div id="careerGrid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Career cards will be dynamically generated -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="loadMoreCareers" class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                    Load More Careers
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Insights Section -->
+    <section id="career-insights" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Career Market Insights</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Real-time data and AI-powered analysis to help you make informed career decisions.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 mb-16">
+                <!-- Job Market Trends -->
+                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">Job Market Trends</h3>
+                    <div class="mb-6">
+                        <canvas id="jobTrendsChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center p-4 bg-green-50 dark:bg-green-900 dark:bg-opacity-20 rounded-lg">
+                            <div class="text-2xl font-bold text-green-600 dark:text-green-400">+15%</div>
+                            <div class="text-sm text-green-700 dark:text-green-300">Tech Jobs Growth</div>
+                        </div>
+                        <div class="text-center p-4 bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">2.5M+</div>
+                            <div class="text-sm text-blue-700 dark:text-blue-300">Open Positions</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salary Insights -->
+                <div class="bg-white dark:bg-dark-card rounded-2xl shadow-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">Salary Insights by Industry</h3>
+                    <div class="space-y-4">
+                        <div class="salary-item" data-industry="technology">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">Technology</span>
+                                <span class="text-green-600 dark:text-green-400 font-bold">$95,000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="salary-bar w-4/5 h-2"></div>
+                            </div>
+                        </div>
+                        <div class="salary-item" data-industry="finance">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">Finance</span>
+                                <span class="text-green-600 dark:text-green-400 font-bold">$88,000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="salary-bar w-3/4 h-2"></div>
+                            </div>
+                        </div>
+                        <div class="salary-item" data-industry="healthcare">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">Healthcare</span>
+                                <span class="text-green-600 dark:text-green-400 font-bold">$82,000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="salary-bar w-2/3 h-2"></div>
+                            </div>
+                        </div>
+                        <div class="salary-item" data-industry="education">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold">Education</span>
+                                <span class="text-green-600 dark:text-green-400 font-bold">$58,000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="salary-bar w-1/2 h-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-sm text-gray-600 dark:text-gray-400">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Average salaries based on current market data
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future Skills -->
+            <div class="bg-white dark:bg-dark-card rounded-2xl shadow-lg p-8 mb-16">
+                <h3 class="text-2xl font-bold mb-6 text-center">Most In-Demand Skills for 2024</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-code text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">Programming</h4>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 95%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">95% demand</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">Data Analysis</h4>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">88% demand</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-robot text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">AI/ML</h4>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-purple-500 h-2 rounded-full" style="width: 82%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">82% demand</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-white text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold mb-2">Cybersecurity</h4>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: 76%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">76% demand</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Assessment Section -->
+    <section id="career-assessment" class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">AI Career Assessment</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Take our comprehensive AI-powered assessment to discover careers that match your personality, skills, and interests.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="flip-card h-64">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-blue-500 to-cyan-500 flex flex-col items-center justify-center text-white">
+                                <i class="fas fa-user text-4xl mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">Personality Analysis</h3>
+                                <p class="text-blue-100 text-center">Discover your work style</p>
+                            </div>
+                            <div class="flip-card-back bg-blue-500 text-white flex flex-col justify-center">
+                                <h4 class="font-bold mb-3">What We Analyze:</h4>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Work preferences</li>
+                                    <li>• Team dynamics</li>
+                                    <li>• Problem-solving style</li>
+                                    <li>• Communication patterns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card h-64">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-green-500 to-emerald-500 flex flex-col items-center justify-center text-white">
+                                <i class="fas fa-cogs text-4xl mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">Skills Assessment</h3>
+                                <p class="text-green-100 text-center">Evaluate your abilities</p>
+                            </div>
+                            <div class="flip-card-back bg-green-500 text-white flex flex-col justify-center">
+                                <h4 class="font-bold mb-3">Skills We Test:</h4>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Technical abilities</li>
+                                    <li>• Soft skills</li>
+                                    <li>• Leadership potential</li>
+                                    <li>• Creative thinking</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card h-64">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-gradient-to-br from-purple-500 to-pink-500 flex flex-col items-center justify-center text-white">
+                                <i class="fas fa-heart text-4xl mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2">Interest Mapping</h3>
+                                <p class="text-purple-100 text-center">Find your passions</p>
+                            </div>
+                            <div class="flip-card-back bg-purple-500 text-white flex flex-col justify-center">
+                                <h4 class="font-bold mb-3">Interest Areas:</h4>
+                                <ul class="text-sm space-y-1">
+                                    <li>• Industry preferences</li>
+                                    <li>• Work environment</li>
+                                    <li>• Growth opportunities</li>
+                                    <li>• Impact & purpose</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 mb-8">
+                        <h3 class="text-2xl font-bold mb-4">Assessment Features</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary text-xl mr-3"></i>
+                                <span class="text-base">15-minute comprehensive test</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-brain text-primary text-xl mr-3"></i>
+                                <span class="text-base">AI-powered analysis</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-pie text-primary text-xl mr-3"></i>
+                                <span class="text-base">Detailed career matches</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-road text-primary text-xl mr-3"></i>
+                                <span class="text-base">Personalized career roadmap</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="startFullAssessment" class="px-12 py-4 text-xl bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold shadow-lg">
+                        <i class="fas fa-play mr-3"></i>Start Free Assessment
+                    </button>
+                    <p class="text-gray-600 dark:text-gray-400 mt-4">Join 100,000+ professionals who found their perfect career</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Path Visualization -->
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Visualize Your Career Journey</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    See how different career paths progress and plan your route to success with interactive career maps.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-dark-card rounded-2xl shadow-lg p-8">
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="path-selector active px-6 py-3 text-base bg-primary text-white rounded-lg transition-all" data-path="software-engineer">Software Engineer</button>
+                    <button class="path-selector px-6 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-path="product-manager">Product Manager</button>
+                    <button class="path-selector px-6 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-path="data-scientist">Data Scientist</button>
+                    <button class="path-selector px-6 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all" data-path="designer">UX Designer</button>
+                </div>
+
+                <div id="careerPathVisualization" class="relative h-96">
+                    <svg class="w-full h-full" id="careerPathSvg">
+                        <!-- SVG content will be dynamically generated -->
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-20 bg-white dark:bg-dark-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Career Transformation Stories</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Real success stories from professionals who used SkillForge AI to advance their careers.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Sarah Kim</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Marketing → Data Science</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "SkillForge AI helped me identify my analytical strengths and transition from marketing to data science. The personalized roadmap was incredibly valuable!"
+                    </blockquote>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        <span>Now: Senior Data Scientist at TechCorp</span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Michael Chen</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Teacher → Product Manager</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "The career assessment revealed my leadership potential. Within 8 months, I successfully pivoted to product management!"
+                    </blockquote>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        <span>Now: Product Manager at StartupXYZ</span>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold">Jessica Rodriguez</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Accountant → UX Designer</p>
+                        </div>
+                    </div>
+                    <blockquote class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+                        "I never thought I could transition to design, but the AI showed me my creative potential and provided the perfect learning path."
+                    </blockquote>
+                    <div class="flex items-center text-sm text-gray-500">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        <span>Now: UX Designer at Design Studio</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="px-8 py-4 text-lg border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                    View More Success Stories
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-primary to-purple-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Your Career?</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Join thousands of professionals who have discovered their ideal career path with SkillForge AI.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="px-8 py-4 text-lg bg-white text-primary rounded-lg hover:bg-gray-100 transition-all font-semibold">
+                    <i class="fas fa-play mr-2"></i>Start Free Assessment
+                </button>
+                <button class="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-primary rounded-lg transition-all font-semibold">
+                    <i class="fas fa-phone mr-2"></i>Book Career Consultation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">SkillForge AI</h3>
+                            <p class="text-xs text-gray-400">Shape Your Future</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed">
+                        Empowering professionals to discover and pursue their ideal careers through AI-powered insights and personalized guidance.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Career Tools</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Explorer</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">AI Assessment</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Salary Insights</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Skills Analysis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Guides</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Industry Reports</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Success Stories</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Webinars</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Coaching</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <p class="text-gray-400 text-base text-center">
+                    © 2024 SkillForge AI. All rights reserved. • Empowering Career Transformations Worldwide
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Career Details Modal -->
+    <div id="careerModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto animate-scale-in">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 id="modalCareerTitle" class="text-3xl font-bold mb-2"></h3>
+                        <p id="modalCareerIndustry" class="text-gray-600 dark:text-gray-400"></p>
+                    </div>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="modalContent" class="space-y-6">
+                    <!-- Content will be dynamically loaded -->
+                </div>
+                
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <button class="flex-1 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                        Start Learning Path
+                    </button>
+                    <button class="flex-1 px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all font-semibold">
+                        Save to Favorites
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Modal -->
+    <div id="assessmentModal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto animate-scale-in">
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold mb-4">AI Career Assessment</h3>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                        <div id="assessmentProgress" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">10</span></p>
+                </div>
+                
+                <div id="assessmentContent">
+                    <!-- Assessment questions will be loaded here -->
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button id="prevQuestion" class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all" disabled>
+                        Previous
+                    </button>
+                    <button id="nextQuestion" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                        Next
+                    </button>
+                </div>
+                
+                <button id="closeAssessment" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample career data
+        const careers = [
+            {
+                id: 1,
+                title: "Software Engineer",
+                industry: "technology",
+                salary: "$95,000",
+                growth: "+22%",
+                description: "Design and develop software applications and systems",
+                skills: ["JavaScript", "Python", "React", "Node.js", "Git"],
+                education: "Bachelor's in Computer Science",
+                experience: "0-2 years",
+                remote: true
+            },
+            {
+                id: 2,
+                title: "Data Scientist",
+                industry: "technology",
+                salary: "$110,000",
+                growth: "+31%",
+                description: "Analyze complex data to help organizations make informed decisions",
+                skills: ["Python", "SQL", "Machine Learning", "Statistics", "Tableau"],
+                education: "Master's in Data Science",
+                experience: "2-4 years",
+                remote: true
+            },
+            {
+                id: 3,
+                title: "Product Manager",
+                industry: "business",
+                salary: "$125,000",
+                growth: "+19%",
+                description: "Guide product development from conception to launch",
+                skills: ["Product Strategy", "Analytics", "Leadership", "Communication", "Agile"],
+                education: "Bachelor's in Business",
+                experience: "3-5 years",
+                remote: true
+            },
+            {
+                id: 4,
+                title: "UX Designer",
+                industry: "creative",
+                salary: "$85,000",
+                growth: "+13%",
+                description: "Create intuitive and engaging user experiences for digital products",
+                skills: ["Figma", "User Research", "Prototyping", "Design Thinking", "HTML/CSS"],
+                education: "Bachelor's in Design",
+                experience: "1-3 years",
+                remote: true
+            },
+            {
+                id: 5,
+                title: "Registered Nurse",
+                industry: "healthcare",
+                salary: "$75,000",
+                growth: "+7%",
+                description: "Provide patient care and medical support in healthcare settings",
+                skills: ["Patient Care", "Medical Knowledge", "Communication", "Critical Thinking", "Empathy"],
+                education: "Nursing Degree",
+                experience: "0-2 years",
+                remote: false
+            },
+            {
+                id: 6,
+                title: "Financial Analyst",
+                industry: "finance",
+                salary: "$80,000",
+                growth: "+5%",
+                description: "Analyze financial data to guide investment and business decisions",
+                skills: ["Excel", "Financial Modeling", "Analytics", "SQL", "Communication"],
+                education: "Bachelor's in Finance",
+                experience: "1-3 years",
+                remote: true
+            },
+            {
+                id: 7,
+                title: "Marketing Manager",
+                industry: "business",
+                salary: "$88,000",
+                growth: "+10%",
+                description: "Develop and execute marketing strategies to promote products and services",
+                skills: ["Digital Marketing", "Analytics", "Content Creation", "SEO", "Social Media"],
+                education: "Bachelor's in Marketing",
+                experience: "3-5 years",
+                remote: true
+            },
+            {
+                id: 8,
+                title: "Mechanical Engineer",
+                industry: "engineering",
+                salary: "$85,000",
+                growth: "+4%",
+                description: "Design and develop mechanical systems and devices",
+                skills: ["CAD", "Problem Solving", "Project Management", "Mathematics", "Physics"],
+                education: "Bachelor's in Engineering",
+                experience: "2-4 years",
+                remote: false
+            }
+        ];
+
+        let displayedCareers = 8;
+        let selectedIndustry = 'all';
+        let currentAssessmentQuestion = 0;
+        const assessmentAnswers = [];
+
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+            }
+        } else if (systemPrefersDark) {
+            html.classList.add('dark');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                line1.style.transform = 'rotate(0deg) translateY(0px)';
+                line2.style.opacity = '1';
+                line3.style.transform = 'rotate(0deg) translateY(0px)';
+            } else {
+                line1.style.transform = 'rotate(45deg) translateY(6px)';
+                line2.style.opacity = '0';
+                line3.style.transform = 'rotate(-45deg) translateY(-6px)';
+            }
+        });
+
+        // Career grid rendering
+        function renderCareers() {
+            const careerGrid = document.getElementById('careerGrid');
+            const filteredCareers = selectedIndustry === 'all' 
+                ? careers 
+                : careers.filter(career => career.industry === selectedIndustry);
+            
+            const careersToShow = filteredCareers.slice(0, displayedCareers);
+            
+            careerGrid.innerHTML = careersToShow.map(career => `
+                <div class="career-card bg-white dark:bg-dark-card rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700" data-career-id="${career.id}">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-2">${career.title}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm capitalize">${career.industry}</p>
+                        </div>
+                        ${career.remote ? '<div class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Remote</div>' : ''}
+                    </div>
+                    
+                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-4 line-clamp-2">${career.description}</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-green-600 dark:text-green-400">${career.salary}</div>
+                            <div class="text-xs text-gray-500">Avg. Salary</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-blue-600 dark:text-blue-400">${career.growth}</div>
+                            <div class="text-xs text-gray-500">Job Growth</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-1">
+                            ${career.skills.slice(0, 3).map(skill => `
+                                <span class="skill-tag px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">${skill}</span>
+                            `).join('')}
+                            ${career.skills.length > 3 ? `<span class="px-2 py-1 text-gray-500 text-xs">+${career.skills.length - 3} more</span>` : ''}
+                        </div>
+                    </div>
+                    
+                    <button class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all text-sm font-semibold">
+                        Learn More
+                    </button>
+                </div>
+            `).join('');
+            
+            // Update load more button
+            const loadMoreBtn = document.getElementById('loadMoreCareers');
+            if (displayedCareers >= filteredCareers.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+            
+            // Add click listeners
+            document.querySelectorAll('.career-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const careerId = parseInt(card.dataset.careerId);
+                    showCareerModal(careerId);
+                });
+            });
+        }
+
+        // Industry filter functionality
+        document.querySelectorAll('.industry-filter').forEach(filter => {
+            filter.addEventListener('click', () => {
+                document.querySelectorAll('.industry-filter').forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                selectedIndustry = filter.dataset.industry;
+                displayedCareers = 8;
+                renderCareers();
+            });
+        });
+
+        // Load more careers
+        document.getElementById('loadMoreCareers').addEventListener('click', () => {
+            displayedCareers += 8;
+            renderCareers();
+        });
+
+        // Career search
+        document.getElementById('careerSearch').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query) {
+                const filteredCareers = careers.filter(career =>
+                    career.title.toLowerCase().includes(query) ||
+                    career.description.toLowerCase().includes(query) ||
+                    career.skills.some(skill => skill.toLowerCase().includes(query))
+                );
+                renderFilteredCareers(filteredCareers);
+            } else {
+                renderCareers();
+            }
+        });
+
+        function renderFilteredCareers(filteredCareers) {
+            const careerGrid = document.getElementById('careerGrid');
+            careerGrid.innerHTML = filteredCareers.map(career => `
+                <div class="career-card bg-white dark:bg-dark-card rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700" data-career-id="${career.id}">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-2">${career.title}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm capitalize">${career.industry}</p>
+                        </div>
+                        ${career.remote ? '<div class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">Remote</div>' : ''}
+                    </div>
+                    
+                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-4 line-clamp-2">${career.description}</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-green-600 dark:text-green-400">${career.salary}</div>
+                            <div class="text-xs text-gray-500">Avg. Salary</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-blue-600 dark:text-blue-400">${career.growth}</div>
+                            <div class="text-xs text-gray-500">Job Growth</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-1">
+                            ${career.skills.slice(0, 3).map(skill => `
+                                <span class="skill-tag px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded">${skill}</span>
+                            `).join('')}
+                            ${career.skills.length > 3 ? `<span class="px-2 py-1 text-gray-500 text-xs">+${career.skills.length - 3} more</span>` : ''}
+                        </div>
+                    </div>
+                    
+                    <button class="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all text-sm font-semibold">
+                        Learn More
+                    </button>
+                </div>
+            `).join('');
+
+            // Add click listeners
+            document.querySelectorAll('.career-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const careerId = parseInt(card.dataset.careerId);
+                    showCareerModal(careerId);
+                });
+            });
+        }
+
+        // Career modal
+        function showCareerModal(careerId) {
+            const career = careers.find(c => c.id === careerId);
+            if (!career) return;
+
+            document.getElementById('modalCareerTitle').textContent = career.title;
+            document.getElementById('modalCareerIndustry').textContent = career.industry.charAt(0).toUpperCase() + career.industry.slice(1);
+            
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Job Overview</h4>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4">${career.description}</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <i class="fas fa-dollar-sign text-green-500 mr-3"></i>
+                                <span><strong>Average Salary:</strong> ${career.salary}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line text-blue-500 mr-3"></i>
+                                <span><strong>Job Growth:</strong> ${career.growth} (next 10 years)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap text-purple-500 mr-3"></i>
+                                <span><strong>Education:</strong> ${career.education}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-briefcase text-orange-500 mr-3"></i>
+                                <span><strong>Experience:</strong> ${career.experience}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-${career.remote ? 'home' : 'building'} text-indigo-500 mr-3"></i>
+                                <span><strong>Work Style:</strong> ${career.remote ? 'Remote Available' : 'On-site'}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Required Skills</h4>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${career.skills.map(skill => `
+                                <span class="px-3 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-sm">${skill}</span>
+                            `).join('')}
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold mb-3">Career Path</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                                <span class="text-sm">Entry Level (0-2 years)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                                <span class="text-sm">Mid Level (3-5 years)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
+                                <span class="text-sm">Senior Level (6+ years)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-orange-500 rounded-full mr-3"></div>
+                                <span class="text-sm">Leadership (8+ years)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mt-6">
+                    <h4 class="text-lg font-semibold mb-3">AI Recommendation</h4>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        Based on current market trends and growth projections, this career shows strong potential. 
+                        The demand for ${career.title.toLowerCase()}s is expected to grow by ${career.growth} over the next decade.
+                    </p>
+                </div>
+            `;
+            
+            document.getElementById('careerModal').classList.remove('hidden');
+            document.getElementById('careerModal').classList.add('flex');
+        }
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('careerModal').classList.add('hidden');
+            document.getElementById('careerModal').classList.remove('flex');
+        });
+
+        // Assessment questions
+        const assessmentQuestions = [
+            {
+                question: "What type of work environment energizes you most?",
+                options: [
+                    { text: "Fast-paced, dynamic startup", weight: { technology: 2, creative: 2 } },
+                    { text: "Structured corporate environment", weight: { business: 2, finance: 2 } },
+                    { text: "Collaborative team setting", weight: { healthcare: 2, education: 2 } },
+                    { text: "Independent, flexible workspace", weight: { technology: 1, creative: 2 } }
+                ]
+            },
+            {
+                question: "Which activity sounds most appealing?",
+                options: [
+                    { text: "Solving complex technical problems", weight: { technology: 3, engineering: 2 } },
+                    { text: "Creating visual designs", weight: { creative: 3 } },
+                    { text: "Analyzing data and trends", weight: { business: 2, finance: 2 } },
+                    { text: "Helping and teaching others", weight: { healthcare: 3, education: 3 } }
+                ]
+            },
+            {
+                question: "What motivates you most in your career?",
+                options: [
+                    { text: "High salary and financial rewards", weight: { finance: 2, business: 2 } },
+                    { text: "Making a positive impact", weight: { healthcare: 3, education: 2 } },
+                    { text: "Innovation and creativity", weight: { technology: 2, creative: 3 } },
+                    { text: "Job security and stability", weight: { healthcare: 1, education: 1 } }
+                ]
+            },
+            {
+                question: "How do you prefer to communicate?",
+                options: [
+                    { text: "Written reports and documentation", weight: { technology: 1, finance: 2 } },
+                    { text: "Visual presentations and demos", weight: { creative: 2, business: 2 } },
+                    { text: "Face-to-face conversations", weight: { healthcare: 2, education: 2 } },
+                    { text: "Online collaboration tools", weight: { technology: 2, creative: 1 } }
+                ]
+            },
+            {
+                question: "What's your ideal work schedule?",
+                options: [
+                    { text: "Traditional 9-5 schedule", weight: { business: 2, finance: 2 } },
+                    { text: "Flexible hours", weight: { technology: 2, creative: 2 } },
+                    { text: "Shift-based work", weight: { healthcare: 2 } },
+                    { text: "Project-based deadlines", weight: { creative: 2, technology: 1 } }
+                ]
+            },
+            {
+                question: "Which skill would you like to develop most?",
+                options: [
+                    { text: "Programming and coding", weight: { technology: 3 } },
+                    { text: "Leadership and management", weight: { business: 3 } },
+                    { text: "Creative and artistic skills", weight: { creative: 3 } },
+                    { text: "Medical and healthcare knowledge", weight: { healthcare: 3 } }
+                ]
+            },
+            {
+                question: "What type of problems excite you?",
+                options: [
+                    { text: "Technical and logical challenges", weight: { technology: 2, engineering: 3 } },
+                    { text: "Human and social issues", weight: { healthcare: 2, education: 2 } },
+                    { text: "Business and strategic problems", weight: { business: 3, finance: 2 } },
+                    { text: "Creative and design challenges", weight: { creative: 3 } }
+                ]
+            },
+            {
+                question: "How important is work-life balance?",
+                options: [
+                    { text: "Extremely important", weight: { education: 2, healthcare: 1 } },
+                    { text: "Somewhat important", weight: { business: 1, creative: 1 } },
+                    { text: "Not very important", weight: { technology: 1, finance: 2 } },
+                    { text: "I prefer work flexibility", weight: { technology: 2, creative: 2 } }
+                ]
+            },
+            {
+                question: "What learning style suits you best?",
+                options: [
+                    { text: "Hands-on experience", weight: { technology: 2, engineering: 2 } },
+                    { text: "Visual and creative methods", weight: { creative: 3 } },
+                    { text: "Reading and research", weight: { finance: 2, business: 1 } },
+                    { text: "Interactive discussions", weight: { education: 2, healthcare: 1 } }
+                ]
+            },
+            {
+                question: "Where do you see yourself in 10 years?",
+                options: [
+                    { text: "Leading a tech company", weight: { technology: 2, business: 2 } },
+                    { text: "Running my own creative studio", weight: { creative: 3 } },
+                    { text: "Making a difference in healthcare", weight: { healthcare: 3 } },
+                    { text: "Managing financial investments", weight: { finance: 3 } }
+                ]
+            }
+        ];
+
+        // Assessment functionality
+        function startAssessment() {
+            currentAssessmentQuestion = 0;
+            assessmentAnswers.length = 0;
+            document.getElementById('assessmentModal').classList.remove('hidden');
+            document.getElementById('assessmentModal').classList.add('flex');
+            showAssessmentQuestion();
+        }
+
+        function showAssessmentQuestion() {
+            const question = assessmentQuestions[currentAssessmentQuestion];
+            const content = document.getElementById('assessmentContent');
+            
+            content.innerHTML = `
+                <div class="assessment-question">
+                    <h4 class="text-xl font-semibold mb-6">${question.question}</h4>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <label class="flex items-center p-4 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-primary transition-all">
+                                <input type="radio" name="assessment" value="${index}" class="mr-4 w-4 h-4 text-primary">
+                                <span class="text-base">${option.text}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update progress
+            const progress = ((currentAssessmentQuestion + 1) / assessmentQuestions.length) * 100;
+            document.getElementById('assessmentProgress').style.width = progress + '%';
+            document.getElementById('currentQuestionNum').textContent = currentAssessmentQuestion + 1;
+            document.getElementById('totalQuestions').textContent = assessmentQuestions.length;
+            
+            // Update buttons
+            document.getElementById('prevQuestion').disabled = currentAssessmentQuestion === 0;
+            document.getElementById('nextQuestion').textContent = 
+                currentAssessmentQuestion === assessmentQuestions.length - 1 ? 'Get Results' : 'Next';
+        }
+
+        document.getElementById('nextQuestion').addEventListener('click', () => {
+            const selectedOption = document.querySelector('input[name="assessment"]:checked');
+            if (!selectedOption) {
+                showErrorMessage('Please select an answer before continuing.');
+                return;
+            }
+            
+            const optionIndex = parseInt(selectedOption.value);
+            assessmentAnswers[currentAssessmentQuestion] = optionIndex;
+            
+            if (currentAssessmentQuestion < assessmentQuestions.length - 1) {
+                currentAssessmentQuestion++;
+                showAssessmentQuestion();
+            } else {
+                showAssessmentResults();
+            }
+        });
+
+        document.getElementById('prevQuestion').addEventListener('click', () => {
+            if (currentAssessmentQuestion > 0) {
+                currentAssessmentQuestion--;
+                showAssessmentQuestion();
+            }
+        });
+
+        function showAssessmentResults() {
+            const scores = {
+                technology: 0,
+                healthcare: 0,
+                business: 0,
+                creative: 0,
+                finance: 0,
+                education: 0,
+                engineering: 0
+            };
+            
+            // Calculate scores
+            assessmentAnswers.forEach((answerIndex, questionIndex) => {
+                const question = assessmentQuestions[questionIndex];
+                const selectedOption = question.options[answerIndex];
+                
+                Object.keys(selectedOption.weight).forEach(industry => {
+                    scores[industry] += selectedOption.weight[industry];
+                });
+            });
+            
+            // Sort by score
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const topIndustries = sortedScores.slice(0, 3);
+            
+            // Show results
+            const content = document.getElementById('assessmentContent');
+            content.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check text-white text-3xl"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">Your Career Matches</h4>
+                    <p class="text-gray-600 dark:text-gray-400">Based on your responses, here are your top career recommendations:</p>
+                </div>
+                
+                <div class="space-y-4">
+                    ${topIndustries.map((industry, index) => `
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h5 class="text-lg font-semibold capitalize">${industry[0]}</h5>
+                                <span class="text-primary font-bold">${Math.round((industry[1] / Math.max(...sortedScores.map(s => s[1]))) * 100)}% Match</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full transition-all duration-500" style="width: ${(industry[1] / Math.max(...sortedScores.map(s => s[1]))) * 100}%"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 dark:bg-opacity-20 rounded-lg">
+                    <h5 class="font-semibold mb-2">Next Steps:</h5>
+                    <ul class="text-sm space-y-1">
+                        <li>• Explore careers in your top industries</li>
+                        <li>• Take relevant courses to build skills</li>
+                        <li>• Connect with professionals in these fields</li>
+                        <li>• Consider job shadowing opportunities</li>
+                    </ul>
+                </div>
+            `;
+            
+            // Update buttons
+            document.getElementById('prevQuestion').style.display = 'none';
+            document.getElementById('nextQuestion').textContent = 'Explore Careers';
+            document.getElementById('nextQuestion').onclick = () => {
+                document.getElementById('assessmentModal').classList.add('hidden');
+                document.getElementById('assessmentModal').classList.remove('flex');
+                // Focus on the top industry
+                const topIndustry = topIndustries[0][0];
+                selectedIndustry = topIndustry;
+                document.querySelectorAll('.industry-filter').forEach(f => f.classList.remove('active'));
+                document.querySelector(`[data-industry="${topIndustry}"]`).classList.add('active');
+                renderCareers();
+                document.getElementById('career-explorer').scrollIntoView({ behavior: 'smooth' });
+            };
+        }
+
+        document.getElementById('closeAssessment').addEventListener('click', () => {
+            document.getElementById('assessmentModal').classList.add('hidden');
+            document.getElementById('assessmentModal').classList.remove('flex');
+        });
+
+        // Event listeners
+        document.getElementById('startAssessmentBtn').addEventListener('click', startAssessment);
+        document.getElementById('takeAssessment').addEventListener('click', startAssessment);
+        document.getElementById('startFullAssessment').addEventListener('click', startAssessment);
+
+        // Job trends chart
+        function initJobTrendsChart() {
+            const ctx = document.getElementById('jobTrendsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Technology',
+                        data: [100, 95, 110, 125, 140, 155],
+                        borderColor: '#5D5CDE',
+                        backgroundColor: 'rgba(93, 92, 222, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Healthcare',
+                        data: [100, 105, 108, 115, 120, 125],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Business',
+                        data: [100, 90, 95, 105, 110, 118],
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80
+                        }
+                    }
+                }
+            });
+        }
+
+        // Career path visualization
+        function initCareerPathVisualization() {
+            const pathData = {
+                'software-engineer': [
+                    { title: 'Junior Developer', level: 1, salary: '$65k' },
+                    { title: 'Software Engineer', level: 2, salary: '$85k' },
+                    { title: 'Senior Engineer', level: 3, salary: '$120k' },
+                    { title: 'Tech Lead', level: 4, salary: '$150k' },
+                    { title: 'Engineering Manager', level: 5, salary: '$180k' }
+                ],
+                'product-manager': [
+                    { title: 'Associate PM', level: 1, salary: '$75k' },
+                    { title: 'Product Manager', level: 2, salary: '$110k' },
+                    { title: 'Senior PM', level: 3, salary: '$140k' },
+                    { title: 'Group PM', level: 4, salary: '$170k' },
+                    { title: 'VP Product', level: 5, salary: '$200k+' }
+                ]
+            };
+            
+            document.querySelectorAll('.path-selector').forEach(selector => {
+                selector.addEventListener('click', () => {
+                    document.querySelectorAll('.path-selector').forEach(s => {
+                        s.classList.remove('active');
+                        s.classList.add('border', 'border-gray-300', 'dark:border-gray-600');
+                        s.classList.remove('bg-primary', 'text-white');
+                    });
+                    selector.classList.add('active');
+                    selector.classList.remove('border', 'border-gray-300', 'dark:border-gray-600');
+                    selector.classList.add('bg-primary', 'text-white');
+                    
+                    const pathKey = selector.dataset.path;
+                    if (pathData[pathKey]) {
+                        drawCareerPath(pathData[pathKey]);
+                    }
+                });
+            });
+            
+            // Draw initial path
+            drawCareerPath(pathData['software-engineer']);
+        }
+
+        function drawCareerPath(pathSteps) {
+            const svg = document.getElementById('careerPathSvg');
+            const width = svg.clientWidth;
+            const height = svg.clientHeight;
+            
+            svg.innerHTML = '';
+            
+            const stepWidth = width / (pathSteps.length + 1);
+            const centerY = height / 2;
+            
+            // Draw path line
+            const pathLine = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            let pathData = `M ${stepWidth} ${centerY}`;
+            
+            for (let i = 1; i < pathSteps.length; i++) {
+                pathData += ` L ${stepWidth * (i + 1)} ${centerY}`;
+            }
+            
+            pathLine.setAttribute('d', pathData);
+            pathLine.setAttribute('stroke', '#5D5CDE');
+            pathLine.setAttribute('stroke-width', '3');
+            pathLine.setAttribute('fill', 'none');
+            pathLine.classList.add('career-path-line');
+            svg.appendChild(pathLine);
+            
+            // Draw step nodes
+            pathSteps.forEach((step, index) => {
+                const x = stepWidth * (index + 1);
+                const y = centerY;
+                
+                // Node circle
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', '15');
+                circle.setAttribute('fill', '#5D5CDE');
+                circle.setAttribute('stroke', 'white');
+                circle.setAttribute('stroke-width', '3');
+                svg.appendChild(circle);
+                
+                // Step number
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x);
+                text.setAttribute('y', y + 5);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('font-size', '12');
+                text.setAttribute('font-weight', 'bold');
+                text.textContent = index + 1;
+                svg.appendChild(text);
+                
+                // Title
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                title.setAttribute('x', x);
+                title.setAttribute('y', y - 25);
+                title.setAttribute('text-anchor', 'middle');
+                title.setAttribute('fill', '#374151');
+                title.setAttribute('font-size', '14');
+                title.setAttribute('font-weight', 'bold');
+                title.textContent = step.title;
+                svg.appendChild(title);
+                
+                // Salary
+                const salary = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                salary.setAttribute('x', x);
+                salary.setAttribute('y', y + 35);
+                salary.setAttribute('text-anchor', 'middle');
+                salary.setAttribute('fill', '#10B981');
+                salary.setAttribute('font-size', '12');
+                salary.setAttribute('font-weight', 'bold');
+                salary.textContent = step.salary;
+                svg.appendChild(salary);
+            });
+        }
+
+        // Utility function
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in';
+            errorDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 4000);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCareers();
+            initJobTrendsChart();
+            initCareerPathVisualization();
+        });
+
+        console.log('SkillForge AI Careers Page loaded successfully! 🚀');
+    </script>
+</body>
+</html>

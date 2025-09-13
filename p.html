@@ -1,0 +1,41 @@
+<button class="px-8 py-4 text-lg glass-effect text-white rounded-lg hover:shadow-xl transition-all font-semibold" data-video="myVideo">
+    <i class="fas fa-play mr-2"></i>Watch Demo Video
+  </button>
+  
+  <video id="myVideo" class="demo-video">
+    <source src="" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <style>
+    .demo-video {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.demo-video.active {
+  display: block;
+  opacity: 1;
+}
+  </style>
+  <script>document.addEventListener('DOMContentLoaded', () => {
+    const videoButton = document.querySelector('.glass-effect[data-video]');
+  
+    if (videoButton) {
+      videoButton.addEventListener('click', () => {
+        const videoId = videoButton.getAttribute('data-video');
+        const videoElement = document.getElementById(videoId);
+  
+        if (videoElement) {
+          // Toggle the active class to show/hide the video
+          videoElement.classList.toggle('active');
+  
+          if (videoElement.paused) {
+            videoElement.play();
+          } else {
+            videoElement.pause();
+          }
+        }
+      });
+    }
+  });</script>

@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge AI - Your Personalized Career Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="index.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BCF',
+                        dark: {
+                            bg: '#181818',
+                            card: '#2A2A2A',
+                            text: '#E5E5E5'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5D5CDE, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .hero-bg {
+            background: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.2);
+        }
+        
+        .dark .card-hover:hover {
+            box-shadow: 0 20px 40px rgba(93, 92, 222, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold gradient-text">EDGE</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Shape Your Future</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="text-base hover:text-primary transition-colors">Home</a>
+                    <a href="courses.html" class="text-base hover:text-primary transition-colors">Courses</a>
+                    <a href="careers.html" class="text-base hover:text-primary transition-colors">Careers</a>
+                    <a href="avatars.html" class="text-base hover:text-primary transition-colors">Avatars</a>
+                    <a href="features.html" class="text-base hover:text-primary transition-colors">Features</a>
+                    <a href="pricing.html" class="text-base hover:text-primary transition-colors">Pricing</a>
+                    <a href="blog.html" class="text-base hover:text-primary transition-colors">Blog</a>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center bg-gray-100 dark:bg-dark-card rounded-full px-4 py-2 max-w-xs">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="Search careers..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <select class="hidden md:block bg-transparent text-base outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="fr">🇫🇷 FR</option>
+                    </select>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-moon dark:fa-sun text-lg"></i>
+                    </button>
+
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                    </button>
+
+                    <!-- CTA Buttons -->
+                    <div class="hidden lg:flex items-center space-x-3">
+                        <button class="px-4 py-2 text-base text-primary hover:bg-primary hover:text-white rounded-lg transition-all">Login</button>
+                        <button class="px-6 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Try Free Demo</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuToggle" class="lg:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-around">
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line1"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line2"></span>
+                            <span class="w-6 h-0.5 bg-current transform transition-transform duration-300" id="line3"></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="lg:hidden mt-4 hidden">
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-6 space-y-4">
+                    <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-3 mb-4">
+                        <i class="fas fa-search text-gray-400"></i>
+                        <input type="text" placeholder="Search careers..." class="bg-transparent text-base ml-2 flex-1 outline-none">
+                    </div>
+                    <a href="#home" class="block text-base py-2 hover:text-primary transition-colors">Home</a>
+                    <a href="#courses" class="block text-base py-2 hover:text-primary transition-colors">Courses</a>
+                    <a href="#careers" class="block text-base py-2 hover:text-primary transition-colors">Careers</a>
+                    <a href="#avatars" class="block text-base py-2 hover:text-primary transition-colors">Avatars</a>
+                    <a href="#features" class="block text-base py-2 hover:text-primary transition-colors">Features</a>
+                    <a href="#pricing" class="block text-base py-2 hover:text-primary transition-colors">Pricing</a>
+                    <a href="#blog" class="block text-base py-2 hover:text-primary transition-colors">Blog</a>
+                    <div class="pt-4 space-y-3">
+                        <button class="w-full px-4 py-3 text-base text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Login</button>
+                        <button class="w-full px-4 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Try Free Demo</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg pt-24 pb-16 min-h-screen flex items-center">
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white leading-tight">
+                        Discover Your <span class="gradient-text">Dream Career</span> with AI
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
+                        Personalized courses, AI avatar tutors, and immersive simulations to equip you with advanced skills for your chosen career path.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <button class="px-8 py-4 text-lg bg-white text-primary rounded-lg hover:shadow-xl transition-all font-semibold">
+                            <i class="fas fa-rocket mr-2"></i>Discover My Career Path
+                        </button>
+                        
+    <button class="px-8 py-4 text-lg glass-effect text-white rounded-lg hover:shadow-xl transition-all font-semibold">
+        <i class="fas fa-play mr-2"></i>Watch Demo Video
+    </button>
+
+    <div class="video-container">
+        <video id="demo-video" controls class="w-full h-auto rounded-lg shadow-lg">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+                    </div>
+                    <div class="glass-effect rounded-lg p-4 mb-8">
+                        <p class="text-white text-center">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            <a href="#quiz" class="underline hover:text-yellow-300 transition-colors">Take a 2-Minute Career Quiz</a>
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-8 text-white">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">50,000+</div>
+                            <div class="text-sm">Learners</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">20+</div>
+                            <div class="text-sm">Industries</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">95%</div>
+                            <div class="text-sm">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="relative">
+                        <div class="w-80 h-80 md:w-96 md:h-96 bg-white dark:bg-dark-card rounded-full shadow-2xl flex items-center justify-center animate-float">
+                            <i class="fas fa-user-graduate text-primary text-8xl"></i>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center animate-bounce-slow">
+                            <i class="fas fa-star text-white text-xl"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-green-400 rounded-full flex items-center justify-center animate-pulse-slow">
+                            <i class="fas fa-check text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <i class="fas fa-chevron-down text-white text-2xl animate-bounce cursor-pointer" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Why Choose SkillForge AI?</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Experience the future of career education with cutting-edge AI technology and personalized learning paths.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">AI-Generated Courses</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Personalized curricula generated by AI based on your interests, learning style, and career goals.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Avatar Tutors</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Interactive AI avatars that adapt to your learning pace and provide personalized guidance throughout your journey.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-vr-cardboard text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Career Simulations</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Immersive VR/AR simulations of real workplace tasks to practice skills in a safe environment.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Global Mentorship</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Connect with industry professionals worldwide for guidance, networking, and career advice.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-certificate text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Industry Certifications</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Earn recognized certificates and badges that showcase your skills to potential employers.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-comments text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Community Learning</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
+                        Collaborative learning spaces where you can work on projects, share knowledge, and grow together.
+                    </p>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                    Learn More About Features
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Preview Section -->
+    <section id="courses" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Explore Courses & Career Paths</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
+                    Discover personalized learning paths designed to transform your interests into expertise.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="px-6 py-2 text-base bg-primary text-white rounded-full hover:bg-primary-dark transition-all">All</button>
+                    <button class="px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">STEM</button>
+                    <button class="px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Business</button>
+                    <button class="px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Health</button>
+                    <button class="px-6 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">Arts</button>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover group">
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-code text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-robot text-white"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">AI Tutor: CodeMaster</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Full-Stack Development</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">Master modern web development with React, Node.js, and cloud deployment.</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">12 weeks • 1,247 learners</span>
+                            <span class="text-sm bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">Free Preview</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Start Learning</button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover group">
+                    <div class="h-48 bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center">
+                        <i class="fas fa-heartbeat text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-user-md text-white"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">AI Tutor: Dr. Sarah</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Medical Practice</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">Advanced medical training with VR surgery simulations and patient care.</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">24 weeks • 892 learners</span>
+                            <span class="text-sm bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded">Premium</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Start Learning</button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover group">
+                    <div class="h-48 bg-gradient-to-r from-purple-400 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-chart-line text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-briefcase text-white"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">AI Tutor: BizGuru</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Business Strategy</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">Learn strategic planning, market analysis, and leadership skills.</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm text-gray-500">16 weeks • 2,156 learners</span>
+                            <span class="text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Popular</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                            <div class="bg-purple-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">Start Learning</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="px-8 py-4 text-lg border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-semibold">
+                    View All Courses
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avatar Tutor Showcase -->
+    <section id="avatars" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Meet Your AI Tutor</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Personalized AI avatars that adapt to your learning style, remember your progress, and guide you every step of the way.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg text-center card-hover">
+                    <div class="w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-float">
+                        <i class="fas fa-user-graduate text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Professor Alex</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Academic & Research</p>
+                    <button class="text-primary text-sm hover:underline flex items-center justify-center mx-auto">
+                        <i class="fas fa-volume-up mr-1"></i> Sample Voice
+                    </button>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg text-center card-hover">
+                    <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 1s;">
+                        <i class="fas fa-user-md text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Dr. Maya</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Medical & Healthcare</p>
+                    <button class="text-primary text-sm hover:underline flex items-center justify-center mx-auto">
+                        <i class="fas fa-volume-up mr-1"></i> Sample Voice
+                    </button>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg text-center card-hover">
+                    <div class="w-24 h-24 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 2s;">
+                        <i class="fas fa-briefcase text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">CEO Jordan</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Business & Leadership</p>
+                    <button class="text-primary text-sm hover:underline flex items-center justify-center mx-auto">
+                        <i class="fas fa-volume-up mr-1"></i> Sample Voice
+                    </button>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg text-center card-hover">
+                    <div class="w-24 h-24 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-float" style="animation-delay: 3s;">
+                        <i class="fas fa-palette text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Artist Luna</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Creative & Design</p>
+                    <button class="text-primary text-sm hover:underline flex items-center justify-center mx-auto">
+                        <i class="fas fa-volume-up mr-1"></i> Sample Voice
+                    </button>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg mb-8">
+                <h3 class="text-2xl font-bold mb-6 text-center">Avatar Features</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-memory text-primary text-xl mr-3"></i>
+                        <span class="text-base">Remembers your progress</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-heart text-primary text-xl mr-3"></i>
+                        <span class="text-base">Emotional feedback</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-language text-primary text-xl mr-3"></i>
+                        <span class="text-base">Multilingual support</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-graduation-cap text-primary text-xl mr-3"></i>
+                        <span class="text-base">Adapts teaching style</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-smile text-primary text-xl mr-3"></i>
+                        <span class="text-base">Personality customization</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-trophy text-primary text-xl mr-3"></i>
+                        <span class="text-base">Celebrates achievements</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                    Customize My Tutor
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Simulation Section -->
+    <section id="simulations" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Experience Careers Before You Commit</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Immersive simulations that let you practice real workplace tasks and build confidence in your chosen field.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-40 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                        <i class="fas fa-vr-cardboard text-white text-4xl mr-3"></i>
+                        <i class="fas fa-stethoscope text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Medical Surgery VR</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Practice complex surgical procedures in a risk-free virtual environment.
+                        </p>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                            Try Demo Simulation
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-40 bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                        <i class="fas fa-balance-scale text-white text-4xl mr-3"></i>
+                        <i class="fas fa-gavel text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Virtual Courtroom</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Argue cases and practice legal procedures in realistic courtroom scenarios.
+                        </p>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                            Try Demo Simulation
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-40 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                        <i class="fas fa-rocket text-white text-4xl mr-3"></i>
+                        <i class="fas fa-chart-line text-white text-4xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Startup Simulator</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Build and manage a startup from idea to IPO with real market dynamics.
+                        </p>
+                        <button class="w-full px-4 py-2 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                            Try Demo Simulation
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="px-8 py-4 text-lg border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-semibold mr-4">
+                    View All Simulations
+                </button>
+                <button class="px-8 py-4 text-lg bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                    Start Free Trial
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories -->
+    <section id="testimonials" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Learners Who Found Their Future</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Real success stories from students who transformed their careers with SkillForge AI.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">Sarah Chen</h3>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                        "The AI tutor understood exactly how I learn best. Within 6 months, I landed my dream job as a UX designer!"
+                    </p>
+                    <span class="text-sm text-primary font-semibold">Career Switch Success</span>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">Marcus Johnson</h3>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                        "The medical simulations were incredibly realistic. I felt prepared on my first day of residency."
+                    </p>
+                    <span class="text-sm text-green-600 font-semibold">Medical Student</span>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-lg card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-base">Elena Rodriguez</h3>
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                        "From teaching to tech entrepreneurship - the business simulations gave me the confidence to start my own company."
+                    </p>
+                    <span class="text-sm text-purple-600 font-semibold">Entrepreneur</span>
+                </div>
+            </div>
+            <div class="text-center bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg">
+                <div class="text-4xl font-bold text-primary mb-2">90%</div>
+                <div class="text-xl text-gray-600 dark:text-gray-400">of learners report improved job readiness</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Career Quiz -->
+    <section id="quiz" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Which Career Fits You?</h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-400">
+                        Take our AI-powered career assessment to discover your perfect career path.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg">
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-base font-semibold">Career Quiz Progress</span>
+                            <span class="text-base text-gray-500">1 of 10</span>
+                        </div>
+                        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    <div id="quizContent">
+                        <h3 class="text-2xl font-bold mb-6">What type of work environment motivates you most?</h3>
+                        <div class="space-y-4">
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                <input type="radio" name="q1" class="mr-4" value="collaborative">
+                                <span class="text-base">Collaborative team environments with constant interaction</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                <input type="radio" name="q1" class="mr-4" value="independent">
+                                <span class="text-base">Independent work with minimal supervision</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                <input type="radio" name="q1" class="mr-4" value="leadership">
+                                <span class="text-base">Leadership roles guiding and directing others</span>
+                            </label>
+                            <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                <input type="radio" name="q1" class="mr-4" value="helping">
+                                <span class="text-base">Service-oriented roles helping others directly</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-8">
+                        <button class="px-6 py-3 text-base text-gray-500 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                            Previous
+                        </button>
+                        <button class="px-6 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all">
+                            Next Question
+                        </button>
+                    </div>
+                    <div class="text-center mt-6">
+                        <p class="text-base text-gray-600 dark:text-gray-400">
+                            Over 10,000 quizzes taken last week • 
+                            <button class="text-primary hover:underline">Sign up to see full results</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Simple Plans for Every Learner</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
+                    Choose the perfect plan to accelerate your career journey with AI-powered learning.
+                </p>
+                <div class="flex justify-center mb-8">
+                    <div class="bg-white dark:bg-dark-card p-1 rounded-lg">
+                        <button class="px-6 py-2 text-base bg-primary text-white rounded-md">Monthly</button>
+                        <button class="px-6 py-2 text-base text-gray-600 dark:text-gray-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+                            Yearly <span class="text-green-500 text-sm ml-1">(Save 20%)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Free Plan -->
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Free</h3>
+                        <div class="text-4xl font-bold mb-4">$0<span class="text-lg text-gray-500">/month</span></div>
+                        <p class="text-gray-600 dark:text-gray-400 text-base">Perfect for exploring career options</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Access to 3 career assessments
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Basic AI avatar tutor
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            5 course previews
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Community access
+                        </li>
+                    </ul>
+                    <button class="w-full px-6 py-3 text-base border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-semibold">
+                        Get Started Free
+                    </button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-xl card-hover transform scale-105 border-2 border-primary relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
+                    </div>
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                        <div class="text-4xl font-bold mb-4">$29<span class="text-lg text-gray-500">/month</span></div>
+                        <p class="text-gray-600 dark:text-gray-400 text-base">Ideal for serious career development</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Unlimited career assessments
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Advanced AI avatar with memory
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Access to all courses
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            VR/AR simulations
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            1-on-1 mentor sessions
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Industry certifications
+                        </li>
+                    </ul>
+                    <button class="w-full px-6 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                        Start 14-Day Free Trial
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg card-hover">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                        <div class="text-4xl font-bold mb-4">$99<span class="text-lg text-gray-500">/month</span></div>
+                        <p class="text-gray-600 dark:text-gray-400 text-base">For professionals and organizations</p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Everything in Pro plan
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Custom avatar personalities
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            White-label options
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Priority support
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Analytics dashboard
+                        </li>
+                        <li class="flex items-center text-base">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            Team management tools
+                        </li>
+                    </ul>
+                    <button class="w-full px-6 py-3 text-base border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-semibold">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <p class="text-base text-gray-600 dark:text-gray-400 mb-4">
+                    🎓 Student discount available • 30-day money-back guarantee
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-500">
+                    All plans include access to our global community and mobile app
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Insights & Learning Resources</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                    Stay updated with the latest career trends, AI innovations, and success strategies.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <article class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-purple-500"></div>
+                    <div class="p-6">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">December 15, 2024 • Career</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors cursor-pointer">
+                            The Future of AI in Career Development
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Explore how artificial intelligence is revolutionizing the way we learn, develop skills, and advance our careers.
+                        </p>
+                        <button class="text-primary hover:underline text-base">Read More →</button>
+                    </div>
+                </article>
+                <article class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">December 12, 2024 • Success Tips</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors cursor-pointer">
+                            5 Signs You're Ready for a Career Change
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Discover the key indicators that signal it's time to pivot your career and how to make the transition successfully.
+                        </p>
+                        <button class="text-primary hover:underline text-base">Read More →</button>
+                    </div>
+                </article>
+                <article class="bg-white dark:bg-dark-card rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-r from-purple-400 to-pink-500"></div>
+                    <div class="p-6">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">December 10, 2024 • AI Technology</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors cursor-pointer">
+                            How Avatar Tutors Adapt to Your Learning Style
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-base mb-4">
+                            Learn about the advanced AI algorithms that make our avatar tutors so effective at personalized education.
+                        </p>
+                        <button class="text-primary hover:underline text-base">Read More →</button>
+                    </div>
+                </article>
+            </div>
+            <div class="bg-white dark:bg-dark-card p-8 rounded-xl shadow-lg text-center">
+                <h3 class="text-2xl font-bold mb-4">Stay Updated with Career Insights</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-base mb-6">
+                    Get weekly tips, industry trends, and success stories delivered to your inbox.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-bg outline-none focus:border-primary transition-colors">
+                    <button class="px-6 py-3 text-base bg-primary text-white rounded-lg hover:bg-primary-dark transition-all font-semibold">
+                        Subscribe
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-500 mt-4">
+                    12,000+ subscribers • Unsubscribe anytime
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold gradient-text">EDGE AI</h3>
+                            <p class="text-xs text-gray-400">Shape Your Future</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-base leading-relaxed mb-6">
+                        Empowering millions of learners worldwide with AI-powered career development and personalized education.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Platform</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Courses</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Career Paths</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Simulations</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Certifications</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Community</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Careers</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Press</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Partners</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors text-base">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-base mb-4 md:mb-0">
+                        © 2024 EDGE AI. All rights reserved.
+                    </p>
+                    <div class="flex items-center space-x-6">
+                        <span class="text-gray-400 text-base">🌍 Available in 12+ languages</span>
+                        <span class="text-gray-400 text-base">📱 Mobile apps coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const playButton = document.querySelector('.glass-effect');
+            const videoContainer = document.querySelector('.video-container');
+            const videoElement = document.getElementById('demo-video');
+
+            if (playButton && videoContainer && videoElement) {
+                playButton.addEventListener('click', () => {
+                    // Toggle the 'active' class to show/hide the video container
+                    const isVideoVisible = videoContainer.classList.contains('active');
+                    
+                    if (isVideoVisible) {
+                        // If video is visible, hide it
+                        videoContainer.classList.remove('active');
+                        videoElement.pause();
+                        videoElement.currentTime = 0; // Rewind the video
+                        playButton.innerHTML = '<i class="fas fa-play mr-2"></i>Watch Demo Video';
+                    } else {
+                        // If video is hidden, show it
+                        videoContainer.classList.add('active');
+                        videoElement.play();
+                        playButton.innerHTML = '<i class="fas fa-pause mr-2"></i>Close Video';
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+    .glass-effect {
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Video container styles */
+    .video-container {
+        max-width: 90vw;
+        width: 100%;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        margin-top: 2rem;
+        position: relative;
+    }
+
+    .video-container.active {
+        display: block;
+        opacity: 1;
+    }
+</style>
+</body>
+</html>
